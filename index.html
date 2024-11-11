@@ -1,8 +1,71 @@
-<html>
-  <head>
-    <title>Pratik Timsina</title>
-  </head>
-  <body>
-    HI its me pratik
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Not Found</title>
+  <style>
+    /* Embedded CSS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #2d2d2d;
+      color: #f5f5f5;
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 8rem;
+      color: #ff6f61;
+      margin-bottom: 10px;
+    }
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+    .home-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #ff6f61;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .home-btn:hover {
+      background: #ff3b2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>404</h1>
+    <h2>Page Not Found</h2>
+    <p>Oops! The page you are looking for does not exist. It might have been moved or deleted.</p>
+    <a href="/" class="home-btn" onclick="goHome()">Go to Homepage</a>
+  </div>
+
+  <script>
+    // Embedded JavaScript
+    function goHome() {
+      alert("Redirecting to the homepage!");
+      window.location.href = "/";
+    }
+  </script>
+</body>
 </html>
