@@ -1,71 +1,422 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pratik Timsina</title>
-  <style>
-   
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: #2d2d2d;
-      color: #f5f5f5;
-      text-align: center;
-    }
-    .container {
-      max-width: 600px;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 8rem;
-      color: #ff6f61;
-      margin-bottom: 10px;
-    }
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-    }
-    .home-btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #ff6f61;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background 0.3s ease;
-    }
-    .home-btn:hover {
-      background: #ff3b2f;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratik Timsina - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        /* Base styles */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --text-color: #1f2937;
+            --bg-color: #ffffff;
+            --accent-color: #dbeafe;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+        .navbar .max-width {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+        }
+
+        .navbar .logo a {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .navbar .menu li {
+            list-style: none;
+            display: inline-block;
+        }
+
+        .navbar .menu li a {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-left: 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .menu li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Home section styling */
+        .home {
+            display: flex;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/api/placeholder/1920/1080") no-repeat center;
+            height: 100vh;
+            color: #fff;
+            min-height: 500px;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .home .max-width {
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+        }
+
+        .home .home-content {
+            padding-top: 220px;
+        }
+
+        .home .home-content .text-1 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .home .home-content .text-2 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .home .home-content .text-3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .home .home-content .text-3 span {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: #fff;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+        }
+
+        /* About section styling */
+        .about {
+            padding: 100px 0;
+            background: var(--bg-color);
+        }
+
+        .about .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+        }
+
+        /* Services section styling */
+        .services {
+            padding: 100px 0;
+            background: var(--accent-color);
+        }
+
+        .services .serv-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+        }
+
+        .services .card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .services .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Skills section styling */
+        .skills {
+            padding: 100px 0;
+        }
+
+        .skills .skills-content {
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+        }
+
+        .skills .skill-bars {
+            margin-top: 2rem;
+        }
+
+        .skills .bar {
+            margin-bottom: 1.5rem;
+        }
+
+        .skills .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .skills .line {
+            height: 10px;
+            background: var(--accent-color);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .skills .line::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* Contact section styling */
+        .contact {
+            padding: 100px 0;
+            background: var(--accent-color);
+        }
+
+        .contact .contact-content {
+            max-width: 1300px;
+            padding: 0 80px;
+            margin: auto;
+        }
+
+        .contact form {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact form input,
+        .contact form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .contact form button {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .contact form button:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Footer styling */
+        footer {
+            background: var(--text-color);
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            .max-width {
+                padding: 0 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .home .home-content .text-2 {
+                font-size: 3rem;
+            }
+            
+            .home .home-content .text-3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .max-width {
+                padding: 0 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>404</h1>
-    <h2>Page Not Found</h2>
-    <p>Oops! The page you are looking for does not exist. It might have been moved or deleted.</p>
-    <a href="/" class="home-btn" onclick="goHome()">Go to Homepage</a>
-  </div>
+    <nav class="navbar">
+        <div class="max-width">
+            <div class="logo"><a href="#">Pratik<span>.</span></a></div>
+            <ul class="menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
 
-  <script>
-  
-    function goHome() {
-      alert("Redirecting to the homepage!");
-      window.location.href = "/";
-    }
-  </script>
+    <section class="home" id="home">
+        <div class="max-width">
+            <div class="home-content">
+                <div class="text-1">Hello, I'm</div>
+                <div class="text-2">Pratik Timsina</div>
+                <div class="text-3">And I'm a <span class="typing"></span></div>
+                <a href="#contact" class="btn">Hire me</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="column left">
+                <img src="/api/placeholder/400/400" alt="Profile Image">
+            </div>
+            <div class="column right">
+                <p>I'm a passionate full-stack developer with expertise in modern web technologies. With a strong foundation in both front-end and back-end development, I create seamless, user-friendly applications that solve real-world problems.</p>
+                <a href="#" class="btn">Download CV</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title">My Services</h2>
+        <div class="serv-content">
+            <div class="card">
+                <i class="fas fa-code"></i>
+                <h3>Web Development</h3>
+                <p>Creating responsive and modern websites using the latest technologies and best practices.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Mobile Development</h3>
+                <p>Building cross-platform mobile applications that provide seamless user experiences.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-server"></i>
+                <h3>Backend Development</h3>
+                <p>Developing robust and scalable server-side solutions for complex applications.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills" id="skills">
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-content">
+            <div class="skill-bars">
+                <div class="bar">
+                    <div class="info">
+                        <span>React</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="line"><span style="width: 90%"></span></div>
+                </div>
+                <div class="bar">
+                    <div class="info">
+                        <span>Node.js</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="line"><span style="width: 85%"></span></div>
+                </div>
+                <div class="bar">
+                    <div class="info">
+                        <span>Python</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="line"><span style="width: 80%"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="section-title">Contact Me</h2>
+        <div class="contact-content">
+            <form action="#">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <textarea placeholder="Message" rows="6" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <span>Created by <a href="#">Pratik Timsina</a> | © 2025 All rights reserved.</span>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script>
+        // Typing animation
+        var typed = new Typed(".typing", {
+            strings: ["Full Stack Developer", "Web Designer", "Mobile Developer", "UI/UX Designer"],
+            typeSpeed: 100,
+            backSpeed: 60,
+            loop: true
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
