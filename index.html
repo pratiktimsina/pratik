@@ -6,7 +6,7 @@
     <title>Pratik Timsina</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <style>
-        /* Base styles */
+    
         :root {
             --primary-color: #2563eb;
             --secondary-color: #1e40af;
@@ -27,7 +27,7 @@
             overflow-x: hidden;
         }
 
-        /* Navbar styling */
+     
         .navbar {
             position: fixed;
             width: 100%;
@@ -81,7 +81,6 @@
             display: none;
         }
 
-        /* Home section styling */
         .home {
             display: flex;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/api/placeholder/1920/1080") no-repeat center;
@@ -125,7 +124,7 @@
             font-weight: 600;
         }
 
-        /* Button styling */
+        
         .btn {
             display: inline-block;
             padding: 0.8rem 1.8rem;
@@ -140,7 +139,7 @@
             background: var(--secondary-color);
         }
 
-        /* Common Section Styling */
+        
         section {
             padding: 80px 0;
         }
@@ -159,7 +158,6 @@
             margin: auto;
         }
 
-        /* About section styling */
         .about .about-content {
             display: flex;
             flex-wrap: wrap;
@@ -191,7 +189,7 @@
             line-height: 1.6;
         }
 
-        /* Services section styling */
+     
         .services {
             background: var(--accent-color);
         }
@@ -312,7 +310,7 @@
             color: var(--primary-color);
         }
 
-        /* Responsive Design */
+   
         @media (max-width: 991px) {
             .home .home-content .text-2 {
                 font-size: 3rem;
@@ -505,7 +503,7 @@
             loop: true
         });
 
-        // Mobile menu toggle
+    
         const menuBtn = document.querySelector(".menu-btn");
         const menu = document.querySelector(".menu");
         
@@ -517,7 +515,7 @@
                 : '<i class="fas fa-bars"></i>';
         });
 
-        // Close menu when a menu item is clicked
+    
         document.querySelectorAll(".menu li a").forEach(item => {
             item.addEventListener("click", () => {
                 menu.classList.remove("active");
@@ -526,7 +524,7 @@
             });
         });
 
-        // Smooth scrolling
+    
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
