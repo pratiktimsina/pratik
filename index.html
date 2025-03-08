@@ -27,20 +27,14 @@
         .navbar {
             position: fixed;
             width: 100%;
-            padding: 1.5rem 0;
+            padding: 1rem 2rem;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 15px rgba(0,0,0,0.1);
             z-index: 999;
-        }
-
-        .navbar .max-width {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            max-width: 1300px;
-            padding: 0 80px;
-            margin: auto;
+            align-items: center;
         }
 
         .navbar .logo a {
@@ -49,16 +43,19 @@
             font-weight: 700;
         }
 
-        .navbar .menu li {
+        .navbar .menu {
+            display: flex;
             list-style: none;
-            display: inline-block;
+        }
+
+        .navbar .menu li {
+            margin-left: 1.5rem;
         }
 
         .navbar .menu li a {
             color: var(--text-color);
             font-size: 1.1rem;
             font-weight: 500;
-            margin-left: 2rem;
             transition: color 0.3s ease;
         }
 
@@ -66,49 +63,66 @@
             color: var(--primary-color);
         }
 
-        /* Home section styling */
+        /* Responsive Navbar (Hamburger) */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .navbar .menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background: #fff;
+                width: 100%;
+                text-align: center;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            .navbar .menu.active {
+                display: flex;
+            }
+            .navbar .menu li {
+                margin: 1rem 0;
+            }
+        }
+
+        /* Home Section */
         .home {
             display: flex;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/api/placeholder/1920/1080") no-repeat center;
+            align-items: center;
+            justify-content: center;
             height: 100vh;
+            text-align: center;
             color: #fff;
-            min-height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/api/placeholder/1920/1080") no-repeat center;
             background-size: cover;
-            background-attachment: fixed;
+            padding: 20px;
         }
 
-        .home .max-width {
-            max-width: 1300px;
-            padding: 0 80px;
-            margin: auto;
+        .home-content {
+            max-width: 800px;
         }
 
-        .home .home-content {
-            padding-top: 220px;
-        }
-
-        .home .home-content .text-1 {
+        .home-content .text-1 {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
         }
 
-        .home .home-content .text-2 {
+        .home-content .text-2 {
             font-size: 4rem;
             font-weight: 700;
-            margin-bottom: 1rem;
         }
 
-        .home .home-content .text-3 {
+        .home-content .text-3 {
             font-size: 2rem;
-            margin-bottom: 2rem;
         }
 
-        .home .home-content .text-3 span {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        /* Button styling */
         .btn {
             display: inline-block;
             padding: 1rem 2rem;
@@ -123,114 +137,28 @@
             background: var(--secondary-color);
         }
 
-        /* About section styling */
-        .about {
-            padding: 100px 0;
-            background: var(--bg-color);
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .home-content .text-2 {
+                font-size: 3rem;
+            }
+            .home-content .text-3 {
+                font-size: 1.5rem;
+            }
         }
 
-        .about .about-content {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1300px;
-            padding: 0 80px;
-            margin: auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            color: var(--text-color);
-        }
-
-        /* Services section styling */
-        .services {
-            padding: 100px 0;
-            background: var(--accent-color);
-        }
-
-        .services .serv-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1300px;
-            padding: 0 80px;
-            margin: auto;
-        }
-
-        .services .card {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .services .card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Skills section styling */
-        .skills {
-            padding: 100px 0;
-        }
-
-        .skills .skills-content {
-            max-width: 1300px;
-            padding: 0 80px;
-            margin: auto;
-        }
-
-        .skills .skill-bars {
-            margin-top: 2rem;
-        }
-
-        .skills .bar {
-            margin-bottom: 1.5rem;
-        }
-
-        .skills .info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-
-        .skills .line {
-            height: 10px;
-            background: var(--accent-color);
-            border-radius: 5px;
-            position: relative;
-        }
-
-        .skills .line::before {
-            content: "";
-            position: absolute;
-            height: 100%;
-            left: 0;
-            top: 0;
-            background: var(--primary-color);
-            border-radius: 5px;
-        }
-
-        /* Contact section styling */
+        /* Contact section */
         .contact {
-            padding: 100px 0;
+            padding: 100px 20px;
+            text-align: center;
             background: var(--accent-color);
-        }
-
-        .contact .contact-content {
-            max-width: 1300px;
-            padding: 0 80px;
-            margin: auto;
         }
 
         .contact form {
+            max-width: 500px;
+            margin: auto;
             background: #fff;
-            padding: 2rem;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
@@ -245,20 +173,20 @@
         }
 
         .contact form button {
-            background: var(--primary-color);
-            color: #fff;
-            padding: 1rem 2rem;
+            width: 100%;
+            padding: 1rem;
             border: none;
-            border-radius: 5px;
+            background: var(--primary-color);
+            color: white;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: 0.3s;
         }
 
         .contact form button:hover {
             background: var(--secondary-color);
         }
 
-        /* Footer styling */
+        /* Footer */
         footer {
             background: var(--text-color);
             color: #fff;
@@ -269,154 +197,54 @@
         footer a {
             color: var(--primary-color);
         }
-
-        /* Responsive Design */
-        @media (max-width: 991px) {
-            .max-width {
-                padding: 0 50px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .home .home-content .text-2 {
-                font-size: 3rem;
-            }
-            
-            .home .home-content .text-3 {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .max-width {
-                padding: 0 20px;
-            }
-        }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="max-width">
-            <div class="logo"><a href="#">Pratik<span>.</span></a></div>
-            <ul class="menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
+        <div class="logo"><a href="#">Pratik<span>.</span></a></div>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+        <ul class="menu">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
     </nav>
 
     <section class="home" id="home">
-        <div class="max-width">
-            <div class="home-content">
-                <div class="text-1">Hello, I'm</div>
-                <div class="text-2">Pratik Timsina</div>
-                <div class="text-3">And I'm a <span class="typing"></span></div>
-                <a href="#contact" class="btn">Hire me</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="about" id="about">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-            <div class="column left">
-                <!--<img src="IMG_0625.JPG" alt="Profile Image">-->
-                <img src="IMG_0625.JPG" alt="Profile Image" style="width: 400px; height: 400px;">
-            </div>
-            <div class="column right">
-                <p>I'm a passionate full-stack developer with expertise in modern web technologies. With a strong foundation in both front-end and back-end development, I create seamless, user-friendly applications that solve real-world problems.</p>
-                <a href="cv.html" class="btn">Download CV</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="services" id="services">
-        <h2 class="section-title">My Services</h2>
-        <div class="serv-content">
-            <div class="card">
-                <i class="fas fa-code"></i>
-                <h3>Web Development</h3>
-                <p>Creating responsive and modern websites using the latest technologies and best practices.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-mobile-alt"></i>
-                <h3>Mobile Development</h3>
-                <p>Building cross-platform mobile applications that provide seamless user experiences.</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-server"></i>
-                <h3>Backend Development</h3>
-                <p>Developing robust and scalable server-side solutions for complex applications.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="skills" id="skills">
-        <h2 class="section-title">My Skills</h2>
-        <div class="skills-content">
-            <div class="skill-bars">
-                <div class="bar">
-                    <div class="info">
-                        <span>React</span>
-                        <span>90%</span>
-                    </div>
-                    <div class="line"><span style="width: 90%"></span></div>
-                </div>
-                <div class="bar">
-                    <div class="info">
-                        <span>Node.js</span>
-                        <span>85%</span>
-                    </div>
-                    <div class="line"><span style="width: 85%"></span></div>
-                </div>
-                <div class="bar">
-                    <div class="info">
-                        <span>Python</span>
-                        <span>80%</span>
-                    </div>
-                    <div class="line"><span style="width: 80%"></span></div>
-                </div>
-            </div>
+        <div class="home-content">
+            <div class="text-1">Hello, I'm</div>
+            <div class="text-2">Pratik Timsina</div>
+            <div class="text-3">And I'm a <span class="typing"></span></div>
+            <a href="#contact" class="btn">Hire me</a>
         </div>
     </section>
 
     <section class="contact" id="contact">
-        <h2 class="section-title">Contact Me</h2>
-        <div class="contact-content">
-            <form action="#">
-                <input type="text" placeholder="Name" required>
-                <input type="email" placeholder="Email" required>
-                <textarea placeholder="Message" rows="6" required></textarea>
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-        </div>
+        <h2>Contact Me</h2>
+        <form action="#">
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Message" rows="6" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
     </section>
 
     <footer>
         <span>Created by <a href="#">Pratik Timsina</a> | © 2025 All rights reserved.</span>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <script>
+        // Mobile menu toggle
+        document.querySelector(".menu-toggle").addEventListener("click", () => {
+            document.querySelector(".menu").classList.toggle("active");
+        });
+
         // Typing animation
-        var typed = new Typed(".typing", {
+        new Typed(".typing", {
             strings: ["Full Stack Developer", "Web Designer", "Mobile Developer", "UI/UX Designer"],
             typeSpeed: 100,
             backSpeed: 60,
             loop: true
-        });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
         });
     </script>
 </body>
