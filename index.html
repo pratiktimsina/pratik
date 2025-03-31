@@ -17,7 +17,7 @@
             --bg-secondary-light: #F3F4F6;
             --border-light: #E5E7EB;
 
-            /* Dark Mode Colors */
+         
             --primary-dark: #60A5FA;
             --secondary-dark: #3B82F6;
             --text-primary-dark: #F9FAFB;
@@ -599,11 +599,11 @@ body.dark-mode .social-links a:hover {
             loop: true
         });
 
-        // Theme Toggle
+   
         const themeToggle = document.querySelector('.theme-toggle');
         const body = document.body;
 
-        // Check for saved theme preference
+      
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
         }
@@ -611,7 +611,7 @@ body.dark-mode .social-links a:hover {
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             
-            // Save theme preference
+         
             if (body.classList.contains('dark-mode')) {
                 localStorage.setItem('theme', 'dark');
             } else {
@@ -619,7 +619,7 @@ body.dark-mode .social-links a:hover {
             }
         });
 
-        // Mobile Menu Toggle
+      
         const menuBtn = document.querySelector(".menu-btn");
         const menu = document.querySelector(".menu");
         
@@ -631,7 +631,7 @@ body.dark-mode .social-links a:hover {
                 : '<i class="fas fa-bars"></i>';
         });
 
-        // Close menu when menu item is clicked
+     
         document.querySelectorAll(".menu li a").forEach(item => {
             item.addEventListener("click", () => {
                 menu.classList.remove("active");
@@ -640,7 +640,6 @@ body.dark-mode .social-links a:hover {
             });
         });
 
-        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
