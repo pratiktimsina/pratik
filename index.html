@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -399,90 +400,63 @@
             color: var(--text-primary-dark);
         }
 
-        /* Footer */
-        footer {
-            background: var(--text-primary-light);
-            color: white;
-            padding: 1.5rem 0;
-            text-align: center;
-        }
+       /* Footer Styles */
+footer {
+    background: var(--text-primary-light);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
 
-        body.dark-mode footer {
-            background: var(--bg-secondary-dark);
-            color: var(--text-secondary-dark);
-        }
+body.dark-mode footer {
+    background: var(--bg-secondary-dark);
+    color: var(--text-secondary-dark);
+}
 
-        footer a {
-            color: var(--primary-light);
-        }
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-        body.dark-mode footer a {
-            color: var(--primary-dark);
-        }
+.copyright {
+    font-size: 0.9rem;
+}
 
-        /* Responsive Design */
-        @media (max-width: 991px) {
-            .home .home-content .text-2 {
-                font-size: 2.5rem;
-            }
-            
-            .home .home-content .text-3 {
-                font-size: 1.3rem;
-            }
-        }
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
 
-        @media (max-width: 768px) {
-            .menu-btn {
-                display: block;
-                color: var(--text-primary-light);
-                font-size: 1.5rem;
-                cursor: pointer;
-                z-index: 1001;
-                position: fixed;
-                right: 20px;
-                top: 20px;
-            }
+.social-links a {
+    color: white;
+    font-size: 1.5rem;
+    transition: var(--transition);
+}
 
-            body.dark-mode .menu-btn {
-                color: var(--text-primary-dark);
-            }
+body.dark-mode .social-links a {
+    color: var(--text-secondary-dark);
+}
 
-            .navbar .menu {
-                position: fixed;
-                height: 100vh;
-                width: 100%;
-                left: -100%;
-                top: 0;
-                background: var(--bg-primary-light);
-                padding-top: 80px;
-                text-align: center;
-                transition: var(--transition);
-                flex-direction: column;
-                z-index: 1000;
-            }
+.social-links a:hover {
+    color: var(--primary-light);
+    transform: translateY(-3px);
+}
 
-            body.dark-mode .navbar .menu {
-                background: var(--bg-primary-dark);
-            }
+body.dark-mode .social-links a:hover {
+    color: var(--primary-dark);
+}
 
-            .navbar .menu.active {
-                left: 0;
-            }
-
-            .navbar .menu li {
-                display: block;
-                margin: 20px 0;
-            }
-
-            .navbar .menu li a {
-                font-size: 1.2rem;
-            }
-        }
-
-        @media (max-width: 500px) {
-            .home .home-content .text-1 {
-                font-size: 1rem;
-            }
+@media (max-width: 768px) {
+    .footer-content {
+        gap: 0.8rem;
+    }
+}
 
             .home .home-content .text-2 {
                 font-size: 2rem;
@@ -601,13 +575,23 @@
         </div>
     </section>
 
-    <footer>
-        <span>Created by <a href="#">Pratik Timsina</a> | © 2025 All rights reserved.</span>
-    </footer>
+   <footer>
+    <div class="footer-content">
+        <div class="copyright">
+            &copy; 2025 Pratik Timsina. All rights reserved.
+        </div>
+        <div class="social-links">
+            <a href="https://www.instagram.com/prateektimsina/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/prateektimsina" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://x.com/prateektimsina" target="_blank" aria-label="X"><i class="fa-brands fa-x-twitter"></i>"></i></a>
+            <a href="mailto:pratik.timsina2065@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+</footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <script>
-        // Typing animation
+        
         var typed = new Typed(".typing", {
             strings: ["student", "Web Designer", "am going to do", "will definately do"],
             typeSpeed: 100,
