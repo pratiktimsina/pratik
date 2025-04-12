@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <style>
         :root {
-            /* Light Mode Colors */
+        
             --primary-light: #3B82F6;
             --secondary-light: #2563EB;
             --text-primary-light: #1F2937;
@@ -16,7 +16,7 @@
             --bg-secondary-light: #F3F4F6;
             --border-light: #E5E7EB;
 
-            /* Dark Mode Colors */
+      
             --primary-dark: #60A5FA;
             --secondary-dark: #3B82F6;
             --text-primary-dark: #F9FAFB;
@@ -25,7 +25,7 @@
             --bg-secondary-dark: #1F2937;
             --border-dark: #374151;
 
-            /* Transition */
+     
             --transition: all 0.3s ease;
         }
 
@@ -44,13 +44,13 @@
             color: var(--text-primary-light);
         }
 
-        /* Dark Mode */
+        
         body.dark-mode {
             background-color: var(--bg-primary-dark);
             color: var(--text-primary-dark);
         }
 
-        /* Navbar Styles - Updated for mobile responsiveness */
+       
         .navbar {
             position: fixed;
             width: 100%;
@@ -128,7 +128,7 @@
             color: var(--primary-dark);
         }
 
-        /* Theme Toggle */
+     
         .theme-toggle {
             background: none;
             border: none;
@@ -151,7 +151,7 @@
             color: var(--primary-dark);
         }
 
-        /* Home Section */
+    
         .home {
             display: flex;
             height: 84vh;
@@ -201,7 +201,7 @@
             color: var(--primary-dark);
         }
 
-        /* Button Styles */
+     
         .btn {
             display: inline-block;
             padding: 0.8rem 1.8rem;
@@ -246,7 +246,7 @@
             margin: auto;
         }
 
-        /* About Section */
+    
         .about .about-content {
             display: flex;
             flex-wrap: wrap;
@@ -725,7 +725,7 @@
                         <i class="fas fa-envelope"></i>
                         <div class="info-details">
                             <h4>Email</h4>
-                            <p>pratik.timsina2065@gmail.comcom</p>
+                            <p>pratik.timsina2065@gmail.com</p>
                         </div>
                     </div>
                     <div class="info-item">
@@ -738,8 +738,8 @@
                     <div class="info-item">
                         <i class="fas fa-clock"></i>
                         <div class="info-details">
-                            <h4>Working Hours</h4>
-                            <p>Monday - Friday: 9am - 5pm</p>
+                            <h4>Available</h4>
+                            <p>Until I breath</p>
                         </div>
                     </div>
                 </div>
@@ -784,17 +784,17 @@
     <script>
         // Typing animation
         var typed = new Typed(".typing", {
-            strings: ["student", "Web Designer", "am going to do", "will definitely do"],
+            strings: ["student", "Web Designer", "patriotic", "student"],
             typeSpeed: 100,
             backSpeed: 60,
             loop: true
         });
 
-        // Theme toggle
+ 
         const themeToggle = document.querySelector('.theme-toggle');
         const body = document.body;
 
-        // Check if user previously selected dark mode
+     
         if (localStorage.getItem('theme') === 'dark') {
             body.classList.add('dark-mode');
             themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
@@ -803,7 +803,7 @@
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
             
-            // Store user preference
+  
             if (body.classList.contains('dark-mode')) {
                 localStorage.setItem('theme', 'dark');
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
@@ -813,7 +813,7 @@
             }
         });
 
-        // Menu button functionality
+   
         const menuBtn = document.querySelector(".menu-btn");
         const menu = document.querySelector(".menu");
         
@@ -825,7 +825,7 @@
                 : '<i class="fas fa-bars"></i>';
         });
 
-        // Close menu when clicking menu items
+     
         document.querySelectorAll(".menu li a").forEach(item => {
             item.addEventListener("click", () => {
                 menu.classList.remove("active");
@@ -834,7 +834,7 @@
             });
         });
 
-        // Smooth scrolling
+
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -844,11 +844,10 @@
             });
         });
         
-        // Form validation and submission
         const contactForm = document.getElementById('contact-form');
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            // You'd typically add AJAX form submission here
+        
             alert('Your message has been sent successfully!');
             contactForm.reset();
         });
