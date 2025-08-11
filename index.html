@@ -1,856 +1,422 @@
-<!DOCTYPE html>
+<!-- index.html -->
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pratik Timsina</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <style>
-        :root {
-        
-            --primary-light: #3B82F6;
-            --secondary-light: #2563EB;
-            --text-primary-light: #1F2937;
-            --text-secondary-light: #4B5563;
-            --bg-primary-light: #FFFFFF;
-            --bg-secondary-light: #F3F4F6;
-            --border-light: #E5E7EB;
-
-      
-            --primary-dark: #60A5FA;
-            --secondary-dark: #3B82F6;
-            --text-primary-dark: #F9FAFB;
-            --text-secondary-dark: #D1D5DB;
-            --bg-primary-dark: #111827;
-            --bg-secondary-dark: #1F2937;
-            --border-dark: #374151;
-
-     
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            transition: var(--transition);
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            background-color: var(--bg-primary-light);
-            color: var(--text-primary-light);
-        }
-
-        
-        body.dark-mode {
-            background-color: var(--bg-primary-dark);
-            color: var(--text-primary-dark);
-        }
-
-       
-        .navbar {
-            position: fixed;
-            width: 100%;
-            padding: 1rem 0;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
-            transition: var(--transition);
-        }
-
-        body.dark-mode .navbar {
-            background: rgba(17, 24, 39, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .navbar .max-width {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1100px;
-            padding: 0 20px;
-            margin: auto;
-        }
-
-        .navbar .logo a {
-            color: var(--primary-light);
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-decoration: none;
-        }
-
-        body.dark-mode .navbar .logo a {
-            color: var(--primary-dark);
-        }
-
-        /* Menu button for mobile */
-        .menu-btn {
-            display: none;
-            color: var(--text-primary-light);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        body.dark-mode .menu-btn {
-            color: var(--text-primary-dark);
-        }
-
-        .navbar .menu {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar .menu li {
-            list-style: none;
-            margin-left: 1.5rem;
-        }
-
-        .navbar .menu li a {
-            color: var(--text-secondary-light);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-            text-decoration: none;
-        }
-
-        body.dark-mode .navbar .menu li a {
-            color: var(--text-secondary-dark);
-        }
-
-        .navbar .menu li a:hover {
-            color: var(--primary-light);
-        }
-
-        body.dark-mode .navbar .menu li a:hover {
-            color: var(--primary-dark);
-        }
-
-     
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-secondary-light);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-left: 1.5rem;
-        }
-
-        body.dark-mode .theme-toggle {
-            color: var(--text-secondary-dark);
-        }
-
-        .theme-toggle:hover {
-            color: var(--primary-light);
-        }
-
-        body.dark-mode .theme-toggle:hover {
-            color: var(--primary-dark);
-        }
-
-    
-        .home {
-            display: flex;
-            height: 84vh;
-            align-items: center;
-            background: var(--bg-secondary-light);
-            transition: var(--transition);
-            padding-top: 60px; /* Account for fixed navbar */
-        }
-
-        body.dark-mode .home {
-            background: var(--bg-secondary-dark);
-        }
-
-        .home .max-width {
-            max-width: 1100px;
-            width: 100%;
-            padding: 0 20px;
-            margin: auto;
-        }
-
-        .home .home-content .text-1 {
-            font-size: 1.2rem;
-            color: var(--text-secondary-light);
-        }
-
-        body.dark-mode .home .home-content .text-1 {
-            color: var(--text-secondary-dark);
-        }
-
-        .home .home-content .text-2 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .home .home-content .text-3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .home .home-content .text-3 span {
-            color: var(--primary-light);
-            font-weight: 600;
-        }
-
-        body.dark-mode .home .home-content .text-3 span {
-            color: var(--primary-dark);
-        }
-
-     
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.8rem;
-            background: var(--primary-light);
-            color: white;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: var(--transition);
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        body.dark-mode .btn {
-            background: var(--primary-dark);
-        }
-
-        .btn:hover {
-            background: var(--secondary-light);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        body.dark-mode .btn:hover {
-            background: var(--secondary-dark);
-        }
-
-        section {
-            padding: 6rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-        }
-
-        .max-width {
-            max-width: 1100px;
-            padding: 0 20px;
-            margin: auto;
-        }
-
-    
-        .about .about-content {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .about .column.left {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .about .column.left img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .about .column.right {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .about .column.right p {
-            margin-bottom: 1.5rem;
-            color: var(--text-secondary-light);
-        }
-
-        body.dark-mode .about .column.right p {
-            color: var(--text-secondary-dark);
-        }
-
-        /* Services Section */
-        .services {
-            background: var(--bg-secondary-light);
-        }
-
-        body.dark-mode .services {
-            background: var(--bg-secondary-dark);
-        }
-
-        .services .serv-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .services .card {
-            background: var(--bg-primary-light);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            text-align: center;
-            transition: var(--transition);
-        }
-
-        body.dark-mode .services .card {
-            background: var(--bg-primary-dark);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .services .card i {
-            font-size: 3rem;
-            color: var(--primary-light);
-            margin-bottom: 1rem;
-        }
-
-        body.dark-mode .services .card i {
-            color: var(--primary-dark);
-        }
-
-        .services .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-        }
-
-        .services .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
-        }
-
-        /* Skills Section */
-        .skills .skill-bars {
-            margin-top: 2rem;
-        }
-
-        .skills .bar {
-            margin-bottom: 1.5rem;
-        }
-
-        .skills .info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-
-        .skills .line {
-            height: 8px;
-            background: var(--bg-secondary-light);
-            border-radius: 5px;
-            position: relative;
-        }
-
-        body.dark-mode .skills .line {
-            background: var(--bg-secondary-dark);
-        }
-
-        .skills .line span {
-            position: absolute;
-            height: 100%;
-            left: 0;
-            top: 0;
-            background: var(--primary-light);
-            border-radius: 5px;
-        }
-
-        body.dark-mode .skills .line span {
-            background: var(--primary-dark);
-        }
-
-        /* Contact Section - Enhanced professional styling */
-        .contact {
-            background: var(--bg-secondary-light);
-        }
-
-        body.dark-mode .contact {
-            background: var(--bg-secondary-dark);
-        }
-
-        .contact-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-        }
-
-        .contact-info {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .contact-info .info-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-info .info-item i {
-            font-size: 1.5rem;
-            color: var(--primary-light);
-            margin-right: 1rem;
-        }
-
-        body.dark-mode .contact-info .info-item i {
-            color: var(--primary-dark);
-        }
-
-        .contact-info .info-details h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .contact-info .info-details p {
-            color: var(--text-secondary-light);
-        }
-
-        body.dark-mode .contact-info .info-details p {
-            color: var(--text-secondary-dark);
-        }
-
-        .contact form {
-            flex: 1;
-            min-width: 300px;
-            background: var(--bg-primary-light);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-
-        body.dark-mode .contact form {
-            background: var(--bg-primary-dark);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        .contact form .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .contact form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .contact form input,
-        .contact form textarea,
-        .contact form select {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--border-light);
-            border-radius: 5px;
-            font-size: 1rem;
-            background: var(--bg-primary-light);
-            color: var(--text-primary-light);
-        }
-
-        body.dark-mode .contact form input,
-        body.dark-mode .contact form textarea,
-        body.dark-mode .contact form select {
-            border-color: var(--border-dark);
-            background: var(--bg-primary-dark);
-            color: var(--text-primary-dark);
-        }
-
-        .contact form input:focus,
-        .contact form textarea:focus,
-        .contact form select:focus {
-            outline: none;
-            border-color: var(--primary-light);
-        }
-
-        body.dark-mode .contact form input:focus,
-        body.dark-mode .contact form textarea:focus,
-        body.dark-mode .contact form select:focus {
-            border-color: var(--primary-dark);
-        }
-
-        .contact form textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .contact form .btn {
-            width: 100%;
-        }
-
-        /* Footer Styles */
-        footer {
-            background: var(--text-primary-light);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-
-        body.dark-mode footer {
-            background: var(--bg-secondary-dark);
-            color: var(--text-secondary-dark);
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .copyright {
-            font-size: 0.9rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 0.5rem;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: var(--transition);
-        }
-
-        body.dark-mode .social-links a {
-            color: var(--text-secondary-dark);
-        }
-
-        .social-links a:hover {
-            color: var(--primary-light);
-            transform: translateY(-3px);
-        }
-
-        body.dark-mode .social-links a:hover {
-            color: var(--primary-dark);
-        }
-
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
-            .navbar .max-width {
-                padding: 0 15px;
-            }
-            
-            .menu-btn {
-                display: block;
-                z-index: 999;
-            }
-            
-            .navbar .menu {
-                position: fixed;
-                height: 100vh;
-                width: 100%;
-                left: -100%;
-                top: 0;
-                background: var(--bg-primary-light);
-                padding-top: 80px;
-                text-align: center;
-                flex-direction: column;
-                transition: all 0.3s ease;
-            }
-            
-            body.dark-mode .navbar .menu {
-                background: var(--bg-primary-dark);
-            }
-            
-            .navbar .menu.active {
-                left: 0;
-            }
-            
-            .navbar .menu li {
-                display: block;
-                margin: 20px 0;
-            }
-            
-            .navbar .menu li a {
-                font-size: 1.2rem;
-            }
-            
-            .home .home-content .text-2 {
-                font-size: 2rem;
-            }
-            
-            .home {
-                height: 100vh;
-            }
-            
-            .about .about-content,
-            .contact-content {
-                flex-direction: column;
-            }
-            
-            .about .column.right,
-            .contact-info,
-            .contact form {
-                margin-top: 1rem;
-            }
-            
-            .services .serv-content {
-                grid-template-columns: 1fr;
-            }
-            
-            section {
-                padding: 4rem 0;
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pratik Timsina</title>
+  <meta name="description" content="Pratik Timsina — Full‑stack developer. Projects, Class 12 GPA calculator, contact and portfolio.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#f7fafc; /* light */
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --accent:#2563eb;
+      --glass: rgba(255,255,255,0.6);
+      --radius:14px;
+      --shadow: 0 8px 30px rgba(15,23,42,0.08);
+      --transition: 220ms cubic-bezier(.2,.9,.3,1);
+    }
+    [data-theme="dark"]{
+      --bg:#0b1220;
+      --card:#0f1724;
+      --text:#e6eef8;
+      --muted:#9aa8bf;
+      --accent:#60a5fa;
+      --glass: rgba(255,255,255,0.03);
+      --shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,var(--bg),var(--bg));
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+    .container{max-width:1100px;margin:0 auto;padding:28px}
+
+    /* NAV */
+    header{position:sticky;top:12px;z-index:30}
+    .nav-wrap{display:flex;align-items:center;justify-content:space-between;border-radius:12px;padding:10px;background:var(--glass);backdrop-filter:blur(6px);box-shadow:var(--shadow)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7cc3ff);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:18px}
+    .brand h1{font-size:1.05rem;margin:0}
+    nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;font-size:0.95rem}
+    nav a:hover{color:var(--accent)}
+    .nav-actions{display:flex;gap:12px;align-items:center}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:700;box-shadow:0 6px 20px rgba(37,99,235,0.18);transition:transform var(--transition)}
+    .btn:active{transform:translateY(1px)}
+    .icon-btn{background:transparent;border:1px solid transparent;padding:8px;border-radius:10px;cursor:pointer}
+
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:56px 0}
+    .hero-left h2{font-size:2.2rem;margin:0 0 8px}
+    .hero-left p{color:var(--muted);margin:0 0 18px}
+    .headline-roles{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{padding:6px 10px;background:var(--card);border-radius:999px;color:var(--muted);font-weight:600;border:1px solid rgba(15,23,42,0.04)}
+
+    /* card */
+    .card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+
+    /* projects */
+    .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+    .project-card{display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:12px;border:1px solid rgba(15,23,42,0.04)}
+    .project-card h3{margin:0}
+    .project-card p{color:var(--muted);margin:0}
+
+    /* about */
+    .about{display:flex;gap:28px;align-items:center}
+    .avatar{width:160px;height:160px;border-radius:16px;object-fit:cover;box-shadow:var(--shadow);border:1px solid rgba(15,23,42,0.04)}
+
+    /* skills */
+    .skill{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .progress{height:10px;background:linear-gradient(90deg,rgba(15,23,42,0.06),rgba(15,23,42,0.03));border-radius:999px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#7cc3ff);width:60%}
+
+    /* contact */
+    form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.06);background:transparent;color:var(--text)}
+    textarea{min-height:120px}
+    .muted{color:var(--muted);font-size:0.95rem}
+
+    footer{padding:28px 0;color:var(--muted);text-align:center}
+
+    /* responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      nav ul{display:none}
+      .nav-hamburger{display:inline-flex}
+    }
+
+    @media (max-width:560px){
+      .hero-left h2{font-size:1.6rem}
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="max-width">
-            <div class="logo"><a href="#">Pratik<span>.</span></a></div>
-            <ul class="menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="right-nav">
-                <button class="theme-toggle" aria-label="Toggle dark mode">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <div class="menu-btn">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </div>
+  <div class="container">
+    <header>
+      <div class="nav-wrap" role="navigation" aria-label="Main navigation">
+        <div class="brand">
+          <div class="logo" aria-hidden>PT</div>
+          <div>
+            <h1>Pratik Timsina</h1>
+            <div class="muted">Full‑Stack Developer • Jhapa, Nepal</div>
+          </div>
         </div>
-    </nav>
 
-    <section class="home" id="home">
-        <div class="max-width">
-            <div class="home-content">
-                <div class="text-1">Hello, I'm</div>
-                <div class="text-2">Pratik Timsina</div>
-                <div class="text-3">And I'm <span class="typing"></span></div>
-                <a href="#contact" class="btn">Hire me</a>
-            </div>
+        <nav>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="btn" href="gpacalculator.html" target="_blank" rel="noopener">Open GPA Calculator <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+          <button id="menuBtn" class="icon-btn nav-hamburger" style="display:none"><i class="fa-solid fa-bars"></i></button>
         </div>
-    </section>
+      </div>
+    </header>
 
-    <section class="about" id="about">
+    <main>
+      <section id="home" class="hero" aria-labelledby="home-heading">
+        <div class="hero-left">
+          <h2 id="home-heading">Hi, I'm <strong>Pratik Timsina</strong></h2>
+          <p class="muted">I build practical, accessible web experiences. I focus on clean UI, reliable backends and useful tools — like a Class 12 GPA calculator I created.</p>
+          <div style="display:flex;gap:12px;margin:18px 0">
+            <a class="btn" href="#projects">See Projects</a>
+            <a class="btn" href="#contact" style="background:transparent;color:var(--accent);border:1px solid rgba(37,99,235,0.12);box-shadow:none">Contact Me</a>
+          </div>
+
+          <div style="margin-top:18px">
+            <div class="headline-roles">
+              <span class="chip">JavaScript</span>
+              <span class="chip">React</span>
+              <span class="chip">Node.js</span>
+              <span class="chip">HTML & CSS</span>
+            </div>
+          </div>
+
+          <div style="margin-top:26px" class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <div style="font-size:0.95rem;font-weight:700">Class 12 GPA Calculator</div>
+                <div class="muted" style="font-size:0.92rem">A lightweight tool to compute GPA quickly and accurately.</div>
+              </div>
+              <a href="gpa-calculator.html" class="btn" target="_blank" rel="noopener">Open</a>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card" style="display:flex;flex-direction:column;gap:16px;align-items:center">
+          <img src="IMG_0625.JPG" alt="Pratik Timsina" class="avatar" onerror="this.style.display='none'">
+          <div style="text-align:center">
+            <div style="font-weight:700">Pratik Timsina</div>
+            <div class="muted">Full‑Stack Developer</div>
+          </div>
+          <div style="display:flex;gap:8px;width:100%;justify-content:center">
+            <a href="https://www.instagram.com/prateektimsina/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.facebook.com/prateektimsina" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://x.com/prateektimsina" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </aside>
+      </section>
+
+      <section id="projects" style="padding:28px 0">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+          <article class="project-card card" aria-labelledby="proj1">
+            <div style="display:flex;justify-content:space-between;align-items:start">
+              <div>
+                <h3 id="proj1">Class 12 GPA Calculator</h3>
+                <p>Simple, accurate calculator for Class 12 grade-to-GPA conversion. Exportable and mobile-friendly.</p>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <a href="gpa-calculator.html" class="btn" target="_blank" rel="noopener">Open</a>
+              </div>
+            </div>
+            <div class="muted" style="font-size:0.9rem">Technologies: HTML, CSS, JavaScript</div>
+          </article>
+
+          <article class="project-card card">
+            <h3>Portfolio Website (This site)</h3>
+            <p>Fast, accessible, and responsive portfolio with light/dark themes and a professional layout.</p>
+            <div class="muted">Design, Accessibility, Performance</div>
+          </article>
+
+          <article class="project-card card">
+            <h3>Coming Soon</h3>
+            <p>More projects will be added here — web apps, small tools and open-source contributions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="about" style="padding:28px 0">
         <h2 class="section-title">About Me</h2>
-        <div class="max-width">
-            <div class="about-content">
-                <div class="column left">
-                    <img src="IMG_0625.JPG" alt="Profile Image">
-                </div>
-                <div class="column right">
-                    <p>I'm a passionate full-stack developer with expertise in modern web technologies. With a strong foundation in both front-end and back-end development, I create seamless, user-friendly applications that solve real-world problems.</p>
-                    <a href="cv.html" class="btn">Download CV</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="about">
+          <div style="flex:1">
+            <p class="muted">I build web apps that solve everyday problems and I enjoy turning ideas into polished, usable products. Whether it's a simple utility like a GPA calculator or a full-stack application, I focus on clarity, performance and maintainability.</p>
+            <p style="margin-top:12px"><strong>Location:</strong> Jhapa, Nepal</p>
+            <p style="margin-top:6px"><strong>Available:</strong> Open for freelance & small projects.</p>
+            <div style="margin-top:12px"><a class="btn" href="cv.html" target="_blank">Download CV</a></div>
+          </div>
 
-    <section class="services" id="services">
-        <h2 class="section-title">My Services</h2>
-        <div class="max-width">
-            <div class="serv-content">
-                <div class="card">
-                    <i class="fas fa-code"></i>
-                    <h3>Web Development</h3>
-                    <p>Creating responsive and modern websites using the latest technologies and best practices.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Mobile Development</h3>
-                    <p>Building cross-platform mobile applications that provide seamless user experiences.</p>
-                </div>
-                <div class="card">
-                    <i class="fas fa-server"></i>
-                    <h3>Backend Development</h3>
-                    <p>Developing robust and scalable server-side solutions for complex applications.</p>
-                </div>
+          <div style="width:320px">
+            <div class="card">
+              <h3>Contact</h3>
+              <div class="muted" style="margin-bottom:8px">pratiktimsina@proton.me</div>
+              <div class="muted">+977 9702650344</div>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section class="skills" id="skills">
-        <h2 class="section-title">My Skills</h2>
-        <div class="max-width">
-            <div class="skills-content">
-                <div class="skill-bars">
-                    <div class="bar">
-                        <div class="info">
-                            <span>Math</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="line"><span style="width: 90%"></span></div>
-                    </div>
-                    <div class="bar">
-                        <div class="info">
-                            <span>Physics</span>
-                            <span>85%</span>
-                        </div>
-                        <div class="line"><span style="width: 85%"></span></div>
-                    </div>
-                    <div class="bar">
-                        <div class="info">
-                            <span>Chemistry</span>
-                            <span>80%</span>
-                        </div>
-                        <div class="line"><span style="width: 80%"></span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      <section id="skills" style="padding:28px 0">
+        <h2 class="section-title">Skills</h2>
+        <div class="card">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+            <div>
+              <div class="skill"><div>Math</div><div>90%</div></div>
+              <div class="progress" aria-hidden><i style="width:90%"></i></div>
 
-    <section class="contact" id="contact">
-        <h2 class="section-title">Contact Me</h2>
-        <div class="max-width">
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div class="info-details">
-                            <h4>Location</h4>
-                            <p>Jhapa, Nepal</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <div class="info-details">
-                            <h4>Email</h4>
-                            <p>pratiktimsina@proton.me</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-phone"></i>
-                        <div class="info-details">
-                            <h4>Phone</h4>
-                            <p>+9779702650344</p>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-clock"></i>
-                        <div class="info-details">
-                            <h4>Available</h4>
-                            <p>Until I breath</p>
-                        </div>
-                    </div>
-                </div>
-                <form action="#" id="contact-form">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" placeholder="Your name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" placeholder="pratiktimsina@proton.me" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <input type="text" id="subject" placeholder="Project Inquiry" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" rows="6" placeholder="Tell me about your project..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn">Send Message</button>
-                </form>
+              <div class="skill" style="margin-top:12px"><div>Physics</div><div>85%</div></div>
+              <div class="progress" aria-hidden><i style="width:85%"></i></div>
             </div>
+            <div>
+              <div class="skill"><div>Chemistry</div><div>80%</div></div>
+              <div class="progress" aria-hidden><i style="width:80%"></i></div>
+
+              <div class="skill" style="margin-top:12px"><div>JavaScript</div><div>75%</div></div>
+              <div class="progress" aria-hidden><i style="width:75%"></i></div>
+            </div>
+          </div>
         </div>
-    </section>
+      </section>
+
+      <section id="contact" style="padding:28px 0">
+        <h2 class="section-title">Contact</h2>
+        <div class="card">
+          <form id="contact-form" novalidate>
+            <div class="row">
+              <input type="text" id="name" name="name" placeholder="Full name" required aria-label="Full name">
+              <input type="email" id="email" name="email" placeholder="Email" required aria-label="Email address">
+            </div>
+            <div style="margin-top:12px">
+              <input type="text" id="subject" name="subject" placeholder="Subject" required aria-label="Subject">
+            </div>
+            <div style="margin-top:12px">
+              <textarea id="message" name="message" placeholder="Message" required aria-label="Message"></textarea>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+              <button type="submit" class="btn">Send message</button>
+              <div class="muted">I'll reply within 48 hours</div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="copyright">
-                &copy; 2025 Pratik Timsina. All rights reserved.
-            </div>
-            <div class="social-links">
-                <a href="https://www.instagram.com/prateektimsina/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/prateektimsina" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://x.com/prateektimsina" target="_blank" aria-label="X"><i class="fab fa-twitter"></i></a>
-                <a href="pratiktimsina@proton.me" aria-label="Email"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
+      © 2025 Pratik Timsina • Built with care
     </footer>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-    <script>
-        // Typing animation
-        var typed = new Typed(".typing", {
-            strings: ["student", "Web Designer", "patriotic", "student"],
-            typeSpeed: 100,
-            backSpeed: 60,
-            loop: true
-        });
+  <script>
+    // Theme handling
+    (function(){
+      const root = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+      const pref = localStorage.getItem('site-theme');
+      if(pref) root.setAttribute('data-theme', pref);
+      if(pref === 'dark') toggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
 
- 
-        const themeToggle = document.querySelector('.theme-toggle');
-        const body = document.body;
+      toggle.addEventListener('click', ()=>{
+        const cur = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', cur === 'dark' ? 'dark' : '');
+        localStorage.setItem('site-theme', cur === 'dark' ? 'dark' : '');
+        toggle.innerHTML = cur === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+      });
+    })();
 
-     
-        if (localStorage.getItem('theme') === 'dark') {
-            body.classList.add('dark-mode');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        }
+    // Simple form behavior (client-side only)
+    document.getElementById('contact-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(!name || !email || !message){
+        alert('Please fill required fields.');
+        return;
+      }
+      alert('Thanks ' + (name.split(' ')[0]||name) + '! Your message has been noted.');
+      this.reset();
+    });
 
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            
-  
-            if (body.classList.contains('dark-mode')) {
-                localStorage.setItem('theme', 'dark');
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                localStorage.setItem('theme', 'light');
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        });
-
-   
-        const menuBtn = document.querySelector(".menu-btn");
-        const menu = document.querySelector(".menu");
-        
-        menuBtn.addEventListener("click", () => {
-            menu.classList.toggle("active");
-            menuBtn.classList.toggle("active");
-            menuBtn.innerHTML = menu.classList.contains("active") 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-
-     
-        document.querySelectorAll(".menu li a").forEach(item => {
-            item.addEventListener("click", () => {
-                menu.classList.remove("active");
-                menuBtn.classList.remove("active");
-                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            });
-        });
+    // Responsive nav toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const nav = document.querySelector('nav ul');
+    menuBtn.addEventListener('click', ()=>{
+      const open = nav.style.display === 'flex';
+      nav.style.display = open ? 'none':'flex';
+      menuBtn.innerHTML = open ? '<i class="fa-solid fa-bars"></i>' : '<i class="fa-solid fa-times"></i>';
+    });
+    // show hamburger on small screens
+    function checkResize(){
+      if(window.innerWidth < 980){
+        menuBtn.style.display = 'inline-flex';
+      }else{menuBtn.style.display = 'none';nav.style.display='flex'}
+    }
+    checkResize();window.addEventListener('resize', checkResize);
+  </script>
 
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-        
-        const contactForm = document.getElementById('contact-form');
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-        
-            alert('Your message has been sent successfully!');
-            contactForm.reset();
-        });
-    </script>
+<!-- ----------------------------------------------------------- -->
+<!-- gpa-calculator.html (save as a separate file next to index.html) -->
+
+<!-- gpa-calculator.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Class 12 GPA Calculator — Pratik Timsina</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{font-family:Inter,Arial;background:#f7fafc;color:#0f172a;margin:0;padding:24px}
+    .wrap{max-width:820px;margin:0 auto}
+    .card{background:white;padding:20px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.06)}
+    input[type=number]{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eef8}
+    label{font-weight:600}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+    .btn{background:#2563eb;color:white;padding:10px 16px;border-radius:10px;border:none;cursor:pointer}
+    .result{margin-top:14px;padding:12px;border-radius:8px;background:#f1f8ff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Class 12 GPA Calculator</h1>
+    <p class="muted">Enter your subject grades (percentage or marks) and this tool will calculate a simple GPA. This follows a straightforward percentage→grade→GPA mapping; adjust mapping in the script if your board uses a different scale.</p>
+
+    <div class="card">
+      <form id="gpaForm">
+        <div class="grid" id="subjects">
+          <!-- default 5 subjects; user can add more -->
+        </div>
+        <div style="margin-top:12px;display:flex;gap:12px">
+          <button type="button" id="addSub" class="btn" style="background:#10b981">Add Subject</button>
+          <button type="submit" class="btn">Calculate GPA</button>
+          <button type="button" id="reset" class="btn" style="background:#ef4444">Reset</button>
+        </div>
+      </form>
+      <div id="out" class="result" aria-live="polite" style="display:none"></div>
+    </div>
+  </div>
+
+  <script>
+    // Basic mapping: percentage -> grade point (example)
+    function pctToPoint(p){
+      p = Number(p);
+      if(isNaN(p)) return 0;
+      if(p>=90) return 4.0;
+      if(p>=80) return 3.6;
+      if(p>=70) return 3.2;
+      if(p>=60) return 2.8;
+      if(p>=50) return 2.4;
+      if(p>=40) return 2.0;
+      return 0; // fail or below thresholds
+    }
+
+    const subjectsEl = document.getElementById('subjects');
+    const out = document.getElementById('out');
+
+    function addSubject(value=''){
+      const id = 's' + Date.now() + Math.floor(Math.random()*999);
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = `\n        <label for="${id}">Subject</label>\n        <input id="${id}" type="number" inputmode="numeric" placeholder="Enter percentage (0-100)" min="0" max="100" value="${value}">\n      `;
+      subjectsEl.appendChild(wrapper);
+    }
+
+    // add 5 default subjects
+    for(let i=0;i<5;i++) addSubject();
+
+    document.getElementById('addSub').addEventListener('click', ()=>addSubject());
+
+    document.getElementById('reset').addEventListener('click', ()=>{
+      subjectsEl.innerHTML = '';
+      for(let i=0;i<5;i++) addSubject();
+      out.style.display='none';
+    });
+
+    document.getElementById('gpaForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const inputs = subjectsEl.querySelectorAll('input');
+      let sum = 0; let count = 0; let fail=false;
+      inputs.forEach(inp=>{
+        const v = inp.value.trim();
+        if(v==='') return; // ignore empty
+        const pt = pctToPoint(Number(v));
+        if(pt===0 && Number(v)<40) fail=true;
+        sum += pt; count++;
+      });
+      if(count===0){ alert('Enter at least one subject percentage'); return; }
+      const gpa = (sum / count).toFixed(2);
+      out.style.display='block';
+      out.innerHTML = `<strong>GPA:</strong> ${gpa} ${fail?'<div style="color:#ef4444;margin-top:6px">Note: one or more subjects appear failing (below 40%).</div>':''}`;
+    });
+  </script>
 </body>
 </html>
