@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Full GPA Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        select {
+            padding: 4px;
+        }
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>GPA Calculator (All Subjects)</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Subject</th>
+            <th>Credit Hour</th>
+            <th>Grade Obtained</th>
+        </tr>
+    </thead>
+    <tbody id="subjectTable"></tbody>
+</table>
+
+<div class="result">Overall GPA: <span id="gpa">0.000</span></div>
+
+<script>
+const subjects = [
+    {code: "0041", name: "COM.ENGLISH (TH)", credit: 3.00},
+    {code: "0042", name: "COM.ENGLISH (PR)", credit: 1.00},
+    {code: "9011", name: "Social (TH)", credit: 2.25},
+    {code: "9012", name: "Social (PR)", credit: 0.75},
+    {code: "9111", name: "Chemistry (TH)", credit: 2.25},
+    {code: "9112", name: "Chemistry (PR)", credit: 0.75},
+    {code: "9131", name: "Physics (TH)", credit: 2.25},
+    {code: "9132", name: "Physics (PR)", credit: 0.75},
+    {code: "9141", name: "Math (TH)", credit: 2.25},
+    {code: "9142", name: "Math (PR)", credit: 0.75},
+    {code: "9341", name: "Visual Programming (TH)", credit: 2.00},
+    {code: "9342", name: "Visual Programming (PR)", credit: 2.00},
+    {code: "9351", name: "Computer Network (TH)", credit: 2.00},
+    {code: "9352", name: "Computer Network (PR)", credit: 2.00},
+    {code: "9361", name: "Contemporary Technology (TH)", credit: 2.00},
+    {code: "9362", name: "Contemporary Technology (PR)", credit: 2.00},
+    {code: "9371", name: "Software Engineering and Project (TH)", credit: 2.00},
+    {code: "9372", name: "Software Engineering and Project (PR)", credit: 2.00}
+];
+
+const gradePoints = {
+    "A+": 4.0,
+    "A": 3.6,
+    "B+": 3.2,
+    "B": 2.8,
+    "C+": 2.4,
+    "C": 2.0,
+    "D": 1.6,
+    "F": 0.0
+};
+
+const tableBody = document.getElementById("subjectTable");
+
+// Create table rows
+subjects.forEach(sub => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${sub.code}</td>
+        <td>${sub.name}</td>
+        <td>${sub.credit}</td>
+        <td>
+            <select onchange="calculateGPA()">
+                <option value="">Select</option>
+                ${Object.keys(gradePoints).map(grade => `<option value="${grade}">${grade}</option>`).join('')}
+            </select>
+        </td>
+    `;
+    tableBody.appendChild(row);
+});
+
+function calculateGPA() {
+    let totalPoints = 0;
+    let totalCredits = 0;
+
+    const rows = tableBody.querySelectorAll("tr");
+    rows.forEach((row, index) => {
+        const select = row.querySelector("select");
+        const grade = select.value;
+        if (grade && gradePoints[grade] !== undefined) {
+            totalPoints += gradePoints[grade] * subjects[index].credit;
+            totalCredits += subjects[index].credit;
+        }
+    });
+
+    const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(3) : "0.000";
+    document.getElementById("gpa").textContent = gpa;
+}
+</script>
+
+</body>
+</html>
