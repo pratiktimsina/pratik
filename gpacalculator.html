@@ -1,50 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Full GPA Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full GPA Calculator</title>
+<style>
+    :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --bg-color: #f8f9fa;
+        --border-color: #dee2e6;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: var(--bg-color);
+        color: var(--primary-color);
+    }
+    h2 {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+    .table-container {
+        overflow-x: auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 600px;
+    }
+    th, td {
+        border: 1px solid var(--border-color);
+        padding: 12px 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+    th {
+        background-color: var(--secondary-color);
+        color: white;
+        font-weight: 600;
+    }
+    select {
+        padding: 6px 8px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: white;
+    }
+    .result {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    #gpa {
+        color: var(--secondary-color);
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+    #gpa.updated {
+        transform: scale(1.2);
+        color: #27ae60;
+    }
+    /* Mobile optimization */
+    @media (max-width: 768px) {
         th, td {
-            border: 1px solid #ccc;
+            font-size: 12px;
             padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f4f4f4;
         }
         select {
+            font-size: 12px;
             padding: 4px;
         }
-        .result {
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
 
 <h2>GPA Calculator (All Subjects)</h2>
 
-<table>
-    <thead>
-        <tr>
-            <th>Code</th>
-            <th>Subject</th>
-            <th>Credit Hour</th>
-            <th>Grade Obtained</th>
-        </tr>
-    </thead>
-    <tbody id="subjectTable"></tbody>
-</table>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Subject</th>
+                <th>Credit Hour</th>
+                <th>Grade Obtained</th>
+            </tr>
+        </thead>
+        <tbody id="subjectTable"></tbody>
+    </table>
+</div>
 
 <div class="result">Overall GPA: <span id="gpa">0.000</span></div>
 
@@ -83,7 +134,7 @@ const gradePoints = {
 
 const tableBody = document.getElementById("subjectTable");
 
-// Create table rows
+// Generate table rows
 subjects.forEach(sub => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -115,7 +166,14 @@ function calculateGPA() {
     });
 
     const gpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(3) : "0.000";
-    document.getElementById("gpa").textContent = gpa;
+
+    const gpaElement = document.getElementById("gpa");
+    gpaElement.textContent = gpa;
+    gpaElement.classList.add("updated");
+
+    setTimeout(() => {
+        gpaElement.classList.remove("updated");
+    }, 300);
 }
 </script>
 
