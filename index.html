@@ -84,7 +84,30 @@
 
     /* responsive */
     @media(max-width:980px){.hero{grid-template-columns:1fr}nav ul{display:none}.nav-hamburger{display:inline-flex}}
-    @media(max-width:560px){.hero-left h2{font-size:1.6rem}}
+    @media(max-width:560px){
+      .container{padding:16px;}
+      /* Header smaller */
+      header{top:6px;}
+      .nav-wrap{padding:6px 10px;border-radius:10px;}
+      .logo{width:36px;height:36px;font-size:16px;}
+      .brand h1{font-size:0.9rem;}
+      .brand .muted{font-size:0.8rem;}
+      .btn{padding:8px 12px;font-size:0.85rem;gap:6px;}
+      .icon-btn{padding:6px;border-radius:8px;}
+      /* Hero stacked */
+      .hero{grid-template-columns:1fr;padding:32px 0;text-align:center;}
+      .hero-left{order:2;}
+      .hero-left h2{font-size:1.4rem;}
+      .headline-roles{justify-content:center;}
+      .hero .card{max-width:280px;margin:0 auto 20px;}
+      /* About stacked */
+      .about{flex-direction:column;text-align:center;}
+      .avatar{width:120px;height:120px;}
+      /* Skills single column */
+      #skills .card>div{grid-template-columns:1fr;}
+      /* Contact form stacked */
+      form .row{grid-template-columns:1fr;}
+    }
   </style>
 </head>
 <body>
@@ -119,7 +142,7 @@
         <div class="hero-left">
           <h2>Hi, I'm <strong>Pratik Timsina</strong></h2>
           <p class="muted">I build practical, accessible web experiences — clean UI, reliable backends and useful tools like my Class 12 GPA calculator.</p>
-          <div style="display:flex;gap:12px;margin:18px 0">
+          <div style="display:flex;gap:12px;margin:18px 0;justify-content:center;flex-wrap:wrap">
             <a class="btn" href="#projects">See Projects</a>
             <a class="btn btn-outline" href="#contact">Contact Me</a>
           </div>
@@ -145,7 +168,7 @@
           <article class="project-card card">
             <h3>Class 12 GPA Calculator</h3>
             <p>Simple, accurate calculator for Class 12 grade-to-GPA conversion. Exportable and mobile-friendly.</p>
-            <a href="gpa-calculator.html" class="btn" target="_blank">Open</a>
+            <a href="gpacalculator.html" class="btn" target="_blank">Open</a>
           </article>
           <article class="project-card card">
             <h3>Portfolio Website</h3>
@@ -203,7 +226,7 @@
             <div style="margin-top:12px">
               <textarea name="message" placeholder="Message" required></textarea>
             </div>
-            <div style="margin-top:12px;display:flex;gap:12px;align-items:center">
+            <div style="margin-top:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
               <button type="submit" class="btn">Send message</button>
               <div class="muted">I'll reply within 48 hours</div>
             </div>
