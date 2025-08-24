@@ -94,7 +94,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // 🔹 Enable Offline Cache for Faster Loads
+    // 🔹 Enable Offline Cache
     enableIndexedDbPersistence(db).catch(err => console.warn("⚠️ Cache unavailable:", err.code));
 
     const state = { isAdmin: false, editingId: null };
@@ -194,7 +194,7 @@
       })[c]);
     }
 
-    // 🔹 Real-time Firestore Updates — Optimized
+    // 🔹 Real-time Firestore Updates
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snap) => {
       postsContainer.innerHTML = "";
@@ -221,13 +221,29 @@
             </div>` : ""}
         `;
         postsContainer.appendChild(div);
-
-        if (state.isAdmin) {
-          div.querySelector('.edit-btn')?.addEventListener('click', () => editPost(d.id, data));
-          div.querySelector('.delete-btn')?.addEventListener('click', () => deletePost(d.id));
-        }
       });
     });
-  </script>
+
+    // 🔹 Event Delegation for Edit & Delete (Fixes Button Issue)
+    postsContainer.addEventListener("click", (e) => {
+      if (!state.isAdmin) return; // Only admin can edit/delete
+      const editBtn = e.target.closest(".edit-btn");
+      const deleteBtn = e.target.closest(".delete-btn");
+
+      if (editBtn) {
+        const postId = editBtn.dataset.id;
+        const postElement = editBtn.closest(".post");
+        const title = postElement.querySelector("h2").innerText;
+        const content = postElement.querySelector("p").innerText;
+        editPost(postId, { title, content });
+      }
+
+      if (deleteBtn) {
+        const postId = deleteBtn.dataset.id;
+        deletePost(postId);
+      }
+    });
+</script>
+
 </body>
 </html>
