@@ -35,6 +35,7 @@
     @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
     @keyframes popup { from {opacity:0; transform: translate(-50%,-50%) scale(0.8);} to {opacity:1; transform: translate(-50%,-50%) scale(1);} }
     .top-actions { display:flex; gap:.5rem; align-items:center; }
+    #loading { text-align: center; font-size: 1rem; color: #555; margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -56,6 +57,7 @@
     </div>
 
     <h2 style="color:#2e7d32;">📌 All Blogs</h2>
+    <div id="loading">⏳ Loading posts...</div>
     <div id="posts"></div>
   </div>
 
@@ -72,14 +74,14 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    import { getFirestore, enableIndexedDbPersistence, collection, addDoc, deleteDoc, doc, updateDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-    // Firebase config
+    // 🔹 Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyBCZnGA4CjGtwrXB6ReBLC0fGJ7W2umLyE",
       authDomain: "myblog-92f5b.firebaseapp.com",
       projectId: "myblog-92f5b",
-      storageBucket: "myblog-92f5b.firebasestorage.app",
+      storageBucket: "myblog-92f5b.appspot.com",
       messagingSenderId: "720559345713",
       appId: "1:720559345713:web:a17e12880350033ec60510",
       measurementId: "G-RJ7L5T4KXH"
@@ -87,10 +89,13 @@
 
     const ADMIN_UID = "RuMCWLXgosgByg2jZXHIdeU97y42";
 
-    // Initialize Firebase
+    // 🔹 Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    // 🔹 Enable Offline Cache for Faster Loads
+    enableIndexedDbPersistence(db).catch(err => console.warn("⚠️ Cache unavailable:", err.code));
 
     const state = { isAdmin: false, editingId: null };
     const overlay = document.getElementById("overlay");
@@ -105,6 +110,7 @@
     const titleEl = document.getElementById("title");
     const contentEl = document.getElementById("content");
     const postsContainer = document.getElementById("posts");
+    const loading = document.getElementById("loading");
 
     function showLogin() { loginPopup.style.display = "block"; overlay.style.display = "block"; }
     function closeLogin() { loginPopup.style.display = "none"; overlay.style.display = "none"; }
@@ -188,10 +194,11 @@
       })[c]);
     }
 
-    // 🔹 Real-time Firestore Updates (NO DUPLICATES)
+    // 🔹 Real-time Firestore Updates — Optimized
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snap) => {
       postsContainer.innerHTML = "";
+      loading.style.display = "none";
       if (snap.empty) {
         postsContainer.innerHTML = `<p style="color:#666">No posts yet. ${state.isAdmin ? "Write your first post above!" : "Check back later."}</p>`;
         return;
