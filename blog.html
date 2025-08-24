@@ -76,208 +76,214 @@
     Then fill in the firebaseConfig object with the snippet you get from the console.
   -->
   <script type="module">
-    // 👉 1) SDK imports (use the exact version numbers shown in your Firebase console docs)
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/VERSION/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/VERSION/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/VERSION/firebase-firestore.js";
+  // 👉 1) SDK imports (using your Firebase version: 12.1.0)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-    // 👉 2) Paste your Firebase config snippet here
-    // const firebaseConfig = { apiKey: "...", authDomain: "...", projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..." };
+  // 👉 2) Your Firebase config (from console)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBCZnGA4CjGtwrXB6ReBLC0fGJ7W2umLyE",
+    authDomain: "myblog-92f5b.firebaseapp.com",
+    projectId: "myblog-92f5b",
+    storageBucket: "myblog-92f5b.firebasestorage.app",
+    messagingSenderId: "720559345713",
+    appId: "1:720559345713:web:a17e12880350033ec60510",
+    measurementId: "G-RJ7L5T4KXH"
+  };
 
-    // 👉 3) Put your ADMIN user UID here (copy from Firebase Authentication > Users)
-    // const ADMIN_UID = "YOUR_ADMIN_UID_HERE";
+  // 👉 3) Put your ADMIN user UID here
+  const ADMIN_UID = "YOUR_ADMIN_UID_HERE"; // Replace this after you create/sign in an admin account
 
-    // ====== DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING ======
-    let app, auth, db;
+  // ====== DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING ======
+  let app, auth, db;
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+  } catch (e) {
+    console.error("Firebase init error:", e);
+    alert("Firebase is not configured yet. Open the file and paste your firebaseConfig + VERSION numbers as shown in comments.");
+  }
+
+  const state = {
+    isAdmin: false,
+    editingId: null,
+  };
+
+  // UI Elements
+  const overlay = document.getElementById("overlay");
+  const loginPopup = document.getElementById("loginPopup");
+  const authBtn = document.getElementById("authBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const cancelLoginBtn = document.getElementById("cancelLoginBtn");
+  const newPostBtn = document.getElementById("newPostBtn");
+  const postForm = document.getElementById("postForm");
+  const publishBtn = document.getElementById("publishBtn");
+  const cancelEditBtn = document.getElementById("cancelEditBtn");
+
+  const titleEl = document.getElementById("title");
+  const contentEl = document.getElementById("content");
+  const postsContainer = document.getElementById("posts");
+
+  // Popup helpers
+  function showLogin() {
+    loginPopup.style.display = "block";
+    overlay.style.display = "block";
+  }
+  function closeLogin() {
+    loginPopup.style.display = "none";
+    overlay.style.display = "none";
+  }
+
+  authBtn.addEventListener("click", () => {
+    if (state.isAdmin) {
+      signOut(auth);
+    } else {
+      showLogin();
+    }
+  });
+
+  loginBtn.addEventListener("click", async () => {
+    const email = /** @type {HTMLInputElement} */(document.getElementById("email")).value.trim();
+    const password = /** @type {HTMLInputElement} */(document.getElementById("password")).value;
     try {
-      app = initializeApp(firebaseConfig);
-      auth = getAuth(app);
-      db = getFirestore(app);
-    } catch (e) {
-      console.error("Firebase init error:", e);
-      alert("Firebase is not configured yet. Open the file and paste your firebaseConfig + VERSION numbers as shown in comments.");
+      await signInWithEmailAndPassword(auth, email, password);
+      closeLogin();
+    } catch (err) {
+      console.error(err);
+      alert("❌ Login failed. Check your email/password.");
+    }
+  });
+  cancelLoginBtn.addEventListener("click", closeLogin);
+
+  newPostBtn.addEventListener("click", () => {
+    postForm.style.display = postForm.style.display === "none" ? "block" : "none";
+  });
+
+  cancelEditBtn.addEventListener("click", () => resetEditor());
+
+  // Auth state
+  onAuthStateChanged(auth, (user) => {
+    state.isAdmin = !!(user && user.uid === ADMIN_UID);
+    authBtn.textContent = state.isAdmin ? "🔓" : "🔒";
+    authBtn.title = state.isAdmin ? "Logout" : "Login";
+    newPostBtn.style.display = state.isAdmin ? "inline-block" : "none";
+    postForm.style.display = state.isAdmin ? "block" : "none";
+    loadPosts();
+  });
+
+  function resetEditor() {
+    state.editingId = null;
+    titleEl.value = "";
+    contentEl.value = "";
+    publishBtn.textContent = "Publish";
+    cancelEditBtn.style.display = "none";
+  }
+
+  // Save or update blog
+  publishBtn.addEventListener("click", async () => {
+    const title = titleEl.value.trim();
+    const content = contentEl.value.trim();
+    if (!title || !content) {
+      alert("Please enter both title and content.");
+      return;
     }
 
-    const state = {
-      isAdmin: false,
-      editingId: null,
-    };
-
-    // UI Elements
-    const overlay = document.getElementById("overlay");
-    const loginPopup = document.getElementById("loginPopup");
-    const authBtn = document.getElementById("authBtn");
-    const loginBtn = document.getElementById("loginBtn");
-    const cancelLoginBtn = document.getElementById("cancelLoginBtn");
-    const newPostBtn = document.getElementById("newPostBtn");
-    const postForm = document.getElementById("postForm");
-    const publishBtn = document.getElementById("publishBtn");
-    const cancelEditBtn = document.getElementById("cancelEditBtn");
-
-    const titleEl = document.getElementById("title");
-    const contentEl = document.getElementById("content");
-    const postsContainer = document.getElementById("posts");
-
-    // Popup helpers
-    function showLogin() {
-      loginPopup.style.display = "block";
-      overlay.style.display = "block";
-    }
-    function closeLogin() {
-      loginPopup.style.display = "none";
-      overlay.style.display = "none";
-    }
-
-    authBtn.addEventListener("click", () => {
-      if (state.isAdmin) {
-        // Logout flow
-        signOut(auth);
+    try {
+      if (state.editingId) {
+        await updateDoc(doc(db, "posts", state.editingId), {
+          title,
+          content,
+          updatedAt: serverTimestamp(),
+        });
+        alert("✏️ Blog updated successfully!");
       } else {
-        showLogin();
+        await addDoc(collection(db, "posts"), {
+          title,
+          content,
+          author: "Pratik Timsina",
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+        alert("✅ Blog added!");
       }
-    });
-
-    loginBtn.addEventListener("click", async () => {
-      const email = /** @type {HTMLInputElement} */(document.getElementById("email")).value.trim();
-      const password = /** @type {HTMLInputElement} */(document.getElementById("password")).value;
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        closeLogin();
-      } catch (err) {
-        console.error(err);
-        alert("❌ Login failed. Check your email/password.");
-      }
-    });
-    cancelLoginBtn.addEventListener("click", closeLogin);
-
-    newPostBtn.addEventListener("click", () => {
-      postForm.style.display = postForm.style.display === "none" ? "block" : "none";
-    });
-
-    cancelEditBtn.addEventListener("click", () => resetEditor());
-
-    // Auth state
-    onAuthStateChanged(auth, (user) => {
-      state.isAdmin = !!(user && user.uid === ADMIN_UID);
-      authBtn.textContent = state.isAdmin ? "🔓" : "🔒";
-      authBtn.title = state.isAdmin ? "Logout" : "Login";
-      newPostBtn.style.display = state.isAdmin ? "inline-block" : "none";
-      postForm.style.display = state.isAdmin ? "block" : "none";
+      resetEditor();
       loadPosts();
-    });
-
-    function resetEditor() {
-      state.editingId = null;
-      titleEl.value = "";
-      contentEl.value = "";
-      publishBtn.textContent = "Publish";
-      cancelEditBtn.style.display = "none";
+    } catch (e) {
+      console.error(e);
+      alert("Write failed. Are you logged in as admin? Check Firestore rules & auth.");
     }
+  });
 
-    // Save or update blog
-    publishBtn.addEventListener("click", async () => {
-      const title = titleEl.value.trim();
-      const content = contentEl.value.trim();
-      if (!title || !content) {
-        alert("Please enter both title and content.");
+  async function deletePost(id) {
+    if (!confirm("Are you sure you want to delete this blog?")) return;
+    try {
+      await deleteDoc(doc(db, "posts", id));
+      loadPosts();
+    } catch (e) {
+      console.error(e);
+      alert("Delete failed. Are you logged in as admin?");
+    }
+  }
+
+  function editPost(id, data) {
+    titleEl.value = data.title;
+    contentEl.value = data.content;
+    postForm.style.display = "block";
+    publishBtn.textContent = "Update Blog";
+    cancelEditBtn.style.display = "inline-block";
+    state.editingId = id;
+  }
+
+  // Load and display blogs
+  async function loadPosts() {
+    postsContainer.innerHTML = "";
+    try {
+      const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        postsContainer.innerHTML = `<p style="color:#666">No posts yet. ${state.isAdmin ? "Write your first post above!" : "Check back later."}</p>`;
         return;
       }
+      snap.forEach((d) => {
+        const data = d.data();
+        const div = document.createElement("div");
+        div.classList.add("post");
+        const createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
+        const dateText = createdAt.toLocaleString();
+        div.innerHTML = `
+          <h2>${escapeHtml(data.title || "Untitled")}</h2>
+          <div class="author">✍️ Author: ${escapeHtml(data.author || "Pratik Timsina")}</div>
+          <div class="date">${dateText}</div>
+          <p>${escapeHtml(data.content || "")}</p>
+          ${state.isAdmin ? `
+            <div class="action-btns">
+              <button class="btn edit-btn" data-id="${d.id}">✏️ Edit</button>
+              <button class="btn delete-btn" data-id="${d.id}">🗑️ Delete</button>
+            </div>` : ""}
+        `;
+        postsContainer.appendChild(div);
 
-      try {
-        if (state.editingId) {
-          await updateDoc(doc(db, "posts", state.editingId), {
-            title,
-            content,
-            updatedAt: serverTimestamp(),
-          });
-          alert("✏️ Blog updated successfully!");
-        } else {
-          await addDoc(collection(db, "posts"), {
-            title,
-            content,
-            author: "Pratik Timsina",
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-          });
-          alert("✅ Blog added!");
+        if (state.isAdmin) {
+          div.querySelector('.edit-btn')?.addEventListener('click', () => editPost(d.id, data));
+          div.querySelector('.delete-btn')?.addEventListener('click', () => deletePost(d.id));
         }
-        resetEditor();
-        loadPosts();
-      } catch (e) {
-        console.error(e);
-        alert("Write failed. Are you logged in as admin? Check Firestore rules & auth.");
-      }
-    });
-
-    async function deletePost(id) {
-      if (!confirm("Are you sure you want to delete this blog?")) return;
-      try {
-        await deleteDoc(doc(db, "posts", id));
-        loadPosts();
-      } catch (e) {
-        console.error(e);
-        alert("Delete failed. Are you logged in as admin?");
-      }
+      });
+    } catch (e) {
+      console.error(e);
+      postsContainer.innerHTML = `<p style="color:#c00">Failed to load posts. Check your Firebase config and Firestore rules.</p>`;
     }
+  }
 
-    function editPost(id, data) {
-      titleEl.value = data.title;
-      contentEl.value = data.content;
-      postForm.style.display = "block";
-      publishBtn.textContent = "Update Blog";
-      cancelEditBtn.style.display = "inline-block";
-      state.editingId = id;
-    }
+  function escapeHtml(str) {
+    return (str || "").replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+  }
 
-    // Load and display blogs
-    async function loadPosts() {
-      postsContainer.innerHTML = "";
-      try {
-        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-        const snap = await getDocs(q);
-        if (snap.empty) {
-          postsContainer.innerHTML = `<p style="color:#666">No posts yet. ${state.isAdmin ? "Write your first post above!" : "Check back later."}</p>`;
-          return;
-        }
-        snap.forEach((d) => {
-          const data = d.data();
-          const div = document.createElement("div");
-          div.classList.add("post");
-          const createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
-          const dateText = createdAt.toLocaleString();
-          div.innerHTML = `
-            <h2>${escapeHtml(data.title || "Untitled")}</h2>
-            <div class="author">✍️ Author: ${escapeHtml(data.author || "Pratik Timsina")}</div>
-            <div class="date">${dateText}</div>
-            <p>${escapeHtml(data.content || "")}</p>
-            ${state.isAdmin ? `
-              <div class="action-btns">
-                <button class="btn edit-btn" data-id="${d.id}">✏️ Edit</button>
-                <button class="btn delete-btn" data-id="${d.id}">🗑️ Delete</button>
-              </div>` : ""}
-          `;
-          postsContainer.appendChild(div);
+  loadPosts();
+</script>
 
-          if (state.isAdmin) {
-            div.querySelector('.edit-btn')?.addEventListener('click', () => editPost(d.id, data));
-            div.querySelector('.delete-btn')?.addEventListener('click', () => deletePost(d.id));
-          }
-        });
-      } catch (e) {
-        console.error(e);
-        postsContainer.innerHTML = `<p style="color:#c00">Failed to load posts. Check your Firebase config and Firestore rules.</p>`;
-      }
-    }
-
-    // Simple XSS-safe text output
-    function escapeHtml(str) {
-      return (str || "").replace(/[&<>"']/g, (c) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-      })[c]);
-    }
-
-    // Initial load (will run also after auth state change)
-    loadPosts();
-  </script>
 </body>
 </html>
