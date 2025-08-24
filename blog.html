@@ -5,38 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Blogs</title>
   <style>
-    body { font-family: "Segoe UI", Roboto, sans-serif; margin: 0; background: #f5f7fa; color: #333; line-height: 1.6; }
-    h1,h2,h3 { font-weight: 600; }
-    button { cursor: pointer; border: none; transition: 0.3s ease; }
-    header { background: linear-gradient(135deg, #4CAF50, #2e7d32); color: white; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 100; }
-    header h1 { font-size: 1.5rem; }
-    .menu { font-size: 1.6rem; cursor: pointer; transition: transform 0.2s; }
-    .menu:hover { transform: scale(1.2); }
-    .container { width: 92%; max-width: 900px; margin: 25px auto; }
-    #postForm { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); margin-bottom: 30px; display: none; animation: fadeIn 0.4s ease; }
-    #postForm h2 { margin-top: 0; color: #2e7d32; font-size: 1.3rem; }
-    textarea, input { width: 100%; padding: 12px; margin: 10px 0; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.2s; }
-    textarea:focus, input:focus { border-color: #4CAF50; box-shadow: 0 0 6px rgba(76, 175, 80, 0.3); }
-    .btn { background: #4CAF50; color: white; padding: 10px 16px; font-size: 0.95rem; border-radius: 6px; margin: 3px; }
-    .btn:hover { background: #388e3c; }
-    .post { background: white; padding: 20px; margin: 20px 0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; transition: transform 0.25s ease, box-shadow 0.25s ease; white-space: pre-line; }
-    .post:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
-    .post h2 { margin: 0 0 5px; font-size: 1.4rem; color: #2e7d32; }
-    .date { font-size: 0.9rem; color: #777; margin-bottom: 10px; }
-    .author { font-size: 0.95rem; font-style: italic; color: #444; margin-bottom: 10px; }
-    .action-btns { position: absolute; top: 15px; right: 15px; }
-    .delete-btn { background: #e53935; }
-    .delete-btn:hover { background: #b71c1c; }
-    .edit-btn { background: #1976d2; }
-    .edit-btn:hover { background: #0d47a1; }
-    #loginPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); width: 320px; text-align: center; z-index: 1000; animation: popup 0.3s ease forwards; }
-    #loginPopup h3 { margin-top: 0; color: #2e7d32; font-size: 1.2rem; }
-    #overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); z-index: 900; }
-    @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
-    @keyframes popup { from {opacity:0; transform: translate(-50%,-50%) scale(0.8);} to {opacity:1; transform: translate(-50%,-50%) scale(1);} }
-    .top-actions { display:flex; gap:.5rem; align-items:center; }
-    #loading { text-align: center; font-size: 1rem; color: #555; margin-top: 20px; }
-  </style>
+  body { font-family: "Segoe UI", Roboto, sans-serif; margin: 0; background: #f5f7fa; color: #333; line-height: 1.6; }
+  h1,h2,h3 { font-weight: 600; }
+  button { cursor: pointer; border: none; transition: 0.3s ease; }
+
+  /* 🔹 Header */
+  header { 
+    background: linear-gradient(135deg, #6366f1, #4338ca); 
+    color: white; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 1rem 1.5rem; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15); 
+    position: sticky; top: 0; z-index: 100; 
+  }
+  header h1 { font-size: 1.5rem; }
+
+  .menu { font-size: 1.6rem; cursor: pointer; transition: transform 0.2s; }
+  .menu:hover { transform: scale(1.2); }
+
+  /* 🔹 Layout */
+  .container { width: 92%; max-width: 900px; margin: 25px auto; }
+
+  /* 🔹 Post Form */
+  #postForm { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); margin-bottom: 30px; display: none; animation: fadeIn 0.4s ease; }
+  #postForm h2 { margin-top: 0; color: #4338ca; font-size: 1.3rem; }
+
+  textarea, input { width: 100%; padding: 12px; margin: 10px 0; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.2s; }
+  textarea:focus, input:focus { border-color: #6366f1; box-shadow: 0 0 6px rgba(99, 102, 241, 0.3); }
+
+  /* 🔹 Buttons */
+  .btn { background: #6366f1; color: white; padding: 10px 16px; font-size: 0.95rem; border-radius: 6px; margin: 3px; }
+  .btn:hover { background: #4338ca; }
+
+  /* Delete / Edit */
+  .delete-btn { background: #e53935; }
+  .delete-btn:hover { background: #b71c1c; }
+  .edit-btn { background: #3b82f6; }
+  .edit-btn:hover { background: #1e40af; }
+
+  /* 🔹 Post Cards */
+  .post { background: white; padding: 20px; margin: 20px 0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; transition: transform 0.25s ease, box-shadow 0.25s ease; white-space: pre-line; }
+  .post:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+  .post h2 { margin: 0 0 5px; font-size: 1.4rem; color: #4338ca; }
+
+  .date { font-size: 0.9rem; color: #777; margin-bottom: 10px; }
+  .author { font-size: 0.95rem; font-style: italic; color: #555; margin-bottom: 10px; }
+
+  /* 🔹 Action Buttons */
+  .action-btns { position: absolute; top: 15px; right: 15px; }
+
+  /* 🔹 Login Popup */
+  #loginPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); width: 320px; text-align: center; z-index: 1000; animation: popup 0.3s ease forwards; }
+  #loginPopup h3 { margin-top: 0; color: #4338ca; font-size: 1.2rem; }
+
+  #overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); z-index: 900; }
+
+  @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
+  @keyframes popup { from {opacity:0; transform: translate(-50%,-50%) scale(0.8);} to {opacity:1; transform: translate(-50%,-50%) scale(1);} }
+
+  .top-actions { display:flex; gap:.5rem; align-items:center; }
+  #loading { text-align: center; font-size: 1rem; color: #555; margin-top: 20px; }
+</style>
+
 </head>
 <body>
   <header>
