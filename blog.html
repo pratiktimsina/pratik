@@ -1,260 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Daily Blog</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Daily Blog (Cloud)</title>
   <style>
-    body {
-      font-family: "Segoe UI", Roboto, sans-serif;
-      margin: 0;
-      background: #f5f7fa;
-      color: #333;
-      line-height: 1.6;
-    }
+    body { font-family: "Segoe UI", Roboto, sans-serif; margin: 0; background: #f5f7fa; color: #333; line-height: 1.6; }
     h1,h2,h3 { font-weight: 600; }
-    button {
-      cursor: pointer;
-      border: none;
-      transition: 0.3s ease;
-    }
-    header {
-      background: linear-gradient(135deg, #4CAF50, #2e7d32);
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 1.5rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+    button { cursor: pointer; border: none; transition: 0.3s ease; }
+    header { background: linear-gradient(135deg, #4CAF50, #2e7d32); color: white; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 100; }
     header h1 { font-size: 1.5rem; }
-    .menu {
-      font-size: 1.6rem;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
+    .menu { font-size: 1.6rem; cursor: pointer; transition: transform 0.2s; }
     .menu:hover { transform: scale(1.2); }
-    .container {
-      width: 92%;
-      max-width: 900px;
-      margin: 25px auto;
-    }
-    #postForm {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-      display: none;
-      animation: fadeIn 0.4s ease;
-    }
+    .container { width: 92%; max-width: 900px; margin: 25px auto; }
+    #postForm { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); margin-bottom: 30px; display: none; animation: fadeIn 0.4s ease; }
     #postForm h2 { margin-top: 0; color: #2e7d32; font-size: 1.3rem; }
-    textarea, input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      font-size: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-      transition: 0.2s;
-    }
-    textarea:focus, input:focus {
-      border-color: #4CAF50;
-      box-shadow: 0 0 6px rgba(76, 175, 80, 0.3);
-    }
-    .btn {
-      background: #4CAF50;
-      color: white;
-      padding: 10px 16px;
-      font-size: 0.95rem;
-      border-radius: 6px;
-      margin: 3px;
-    }
+    textarea, input { width: 100%; padding: 12px; margin: 10px 0; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; outline: none; transition: 0.2s; }
+    textarea:focus, input:focus { border-color: #4CAF50; box-shadow: 0 0 6px rgba(76, 175, 80, 0.3); }
+    .btn { background: #4CAF50; color: white; padding: 10px 16px; font-size: 0.95rem; border-radius: 6px; margin: 3px; }
     .btn:hover { background: #388e3c; }
-    .post {
-      background: white;
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      position: relative;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      white-space: pre-line; /* <-- show line breaks from textarea */
-    }
+    .post { background: white; padding: 20px; margin: 20px 0; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; transition: transform 0.25s ease, box-shadow 0.25s ease; white-space: pre-line; }
     .post:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
     .post h2 { margin: 0 0 5px; font-size: 1.4rem; color: #2e7d32; }
     .date { font-size: 0.9rem; color: #777; margin-bottom: 10px; }
     .author { font-size: 0.95rem; font-style: italic; color: #444; margin-bottom: 10px; }
-    .action-btns {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-    }
+    .action-btns { position: absolute; top: 15px; right: 15px; }
     .delete-btn { background: #e53935; }
     .delete-btn:hover { background: #b71c1c; }
     .edit-btn { background: #1976d2; }
     .edit-btn:hover { background: #0d47a1; }
-    #loginPopup {
-      display: none;
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-      width: 300px;
-      text-align: center;
-      z-index: 1000;
-      animation: popup 0.3s ease forwards;
-    }
+    #loginPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: white; padding: 25px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.25); width: 320px; text-align: center; z-index: 1000; animation: popup 0.3s ease forwards; }
     #loginPopup h3 { margin-top: 0; color: #2e7d32; font-size: 1.2rem; }
-    #overlay {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 900;
-    }
+    #overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); z-index: 900; }
     @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
     @keyframes popup { from {opacity:0; transform: translate(-50%,-50%) scale(0.8);} to {opacity:1; transform: translate(-50%,-50%) scale(1);} }
+    .top-actions { display:flex; gap:.5rem; align-items:center; }
   </style>
 </head>
 <body>
-
   <header>
     <h1>📖 My Daily Blog</h1>
-    <div class="menu" onclick="showLogin()">🔒</div>
+    <div class="top-actions">
+      <button id="newPostBtn" class="btn" style="display:none" title="Toggle new post form">➕ New Post</button>
+      <div class="menu" id="authBtn" title="Login">🔒</div>
+    </div>
   </header>
 
   <div class="container">
     <div id="postForm">
       <h2>✍️ Write a New Blog</h2>
-      <input type="text" id="title" placeholder="Blog Title">
+      <input type="text" id="title" placeholder="Blog Title" />
       <textarea id="content" rows="6" placeholder="Write your blog here..."></textarea>
-      <button class="btn" onclick="savePost()">Publish</button>
+      <button class="btn" id="publishBtn">Publish</button>
+      <button class="btn" id="cancelEditBtn" style="display:none;background:#aaa">Cancel</button>
     </div>
 
     <h2 style="color:#2e7d32;">📌 All Blogs</h2>
     <div id="posts"></div>
   </div>
 
-  <div id="overlay" onclick="closeLogin()"></div>
+  <div id="overlay"></div>
   <div id="loginPopup">
-    <h3>🔑 Enter Password</h3>
-    <input type="password" id="password" placeholder="Password">
-    <br><br>
-    <button class="btn" onclick="login()">Login</button>
-    <button class="btn" style="background:#aaa;" onclick="closeLogin()">Cancel</button>
+    <h3>🔑 Admin Login</h3>
+    <input type="email" id="email" placeholder="Email (admin)" />
+    <input type="password" id="password" placeholder="Password" />
+    <br />
+    <br />
+    <button class="btn" id="loginBtn">Login</button>
+    <button class="btn" style="background:#aaa;" id="cancelLoginBtn">Cancel</button>
   </div>
 
-  <script>
-    const ADMIN_PASSWORD = "mySecret123"; 
-    let isLoggedIn = false;
+  <!--
+    🔧 STEP 1 — Add your Firebase SDK imports and config
+    Replace VERSION below with the version suggested by the Firebase console when you add a Web App.
+    Then fill in the firebaseConfig object with the snippet you get from the console.
+  -->
+  <script type="module">
+    // 👉 1) SDK imports (use the exact version numbers shown in your Firebase console docs)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/VERSION/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/VERSION/firebase-auth.js";
+    import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/VERSION/firebase-firestore.js";
 
-    document.addEventListener("DOMContentLoaded", loadPosts);
+    // 👉 2) Paste your Firebase config snippet here
+    // const firebaseConfig = { apiKey: "...", authDomain: "...", projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..." };
 
+    // 👉 3) Put your ADMIN user UID here (copy from Firebase Authentication > Users)
+    // const ADMIN_UID = "YOUR_ADMIN_UID_HERE";
+
+    // ====== DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING ======
+    let app, auth, db;
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    } catch (e) {
+      console.error("Firebase init error:", e);
+      alert("Firebase is not configured yet. Open the file and paste your firebaseConfig + VERSION numbers as shown in comments.");
+    }
+
+    const state = {
+      isAdmin: false,
+      editingId: null,
+    };
+
+    // UI Elements
+    const overlay = document.getElementById("overlay");
+    const loginPopup = document.getElementById("loginPopup");
+    const authBtn = document.getElementById("authBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const cancelLoginBtn = document.getElementById("cancelLoginBtn");
+    const newPostBtn = document.getElementById("newPostBtn");
+    const postForm = document.getElementById("postForm");
+    const publishBtn = document.getElementById("publishBtn");
+    const cancelEditBtn = document.getElementById("cancelEditBtn");
+
+    const titleEl = document.getElementById("title");
+    const contentEl = document.getElementById("content");
+    const postsContainer = document.getElementById("posts");
+
+    // Popup helpers
     function showLogin() {
-      document.getElementById("loginPopup").style.display = "block";
-      document.getElementById("overlay").style.display = "block";
+      loginPopup.style.display = "block";
+      overlay.style.display = "block";
     }
     function closeLogin() {
-      document.getElementById("loginPopup").style.display = "none";
-      document.getElementById("overlay").style.display = "none";
+      loginPopup.style.display = "none";
+      overlay.style.display = "none";
     }
-    function login() {
-      const pass = document.getElementById("password").value;
-      if (pass === ADMIN_PASSWORD) {
-        isLoggedIn = true;
-        document.getElementById("postForm").style.display = "block";
-        closeLogin();
-        loadPosts();
+
+    authBtn.addEventListener("click", () => {
+      if (state.isAdmin) {
+        // Logout flow
+        signOut(auth);
       } else {
-        alert("❌ Wrong password!");
+        showLogin();
       }
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      const email = /** @type {HTMLInputElement} */(document.getElementById("email")).value.trim();
+      const password = /** @type {HTMLInputElement} */(document.getElementById("password")).value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        closeLogin();
+      } catch (err) {
+        console.error(err);
+        alert("❌ Login failed. Check your email/password.");
+      }
+    });
+    cancelLoginBtn.addEventListener("click", closeLogin);
+
+    newPostBtn.addEventListener("click", () => {
+      postForm.style.display = postForm.style.display === "none" ? "block" : "none";
+    });
+
+    cancelEditBtn.addEventListener("click", () => resetEditor());
+
+    // Auth state
+    onAuthStateChanged(auth, (user) => {
+      state.isAdmin = !!(user && user.uid === ADMIN_UID);
+      authBtn.textContent = state.isAdmin ? "🔓" : "🔒";
+      authBtn.title = state.isAdmin ? "Logout" : "Login";
+      newPostBtn.style.display = state.isAdmin ? "inline-block" : "none";
+      postForm.style.display = state.isAdmin ? "block" : "none";
+      loadPosts();
+    });
+
+    function resetEditor() {
+      state.editingId = null;
+      titleEl.value = "";
+      contentEl.value = "";
+      publishBtn.textContent = "Publish";
+      cancelEditBtn.style.display = "none";
     }
 
     // Save or update blog
-    function savePost(editIndex = null) {
-      const title = document.getElementById("title").value.trim();
-      const content = document.getElementById("content").value.trim();
+    publishBtn.addEventListener("click", async () => {
+      const title = titleEl.value.trim();
+      const content = contentEl.value.trim();
       if (!title || !content) {
         alert("Please enter both title and content.");
         return;
       }
 
-      let posts = JSON.parse(localStorage.getItem("posts")) || [];
-      const post = {
-        title: title,
-        content: content,
-        date: new Date().toLocaleString(),
-        author: "Pratik Timsina"
-      };
-
-      if (editIndex !== null) {
-        posts[editIndex] = post;
-        alert("✏️ Blog updated successfully!");
-      } else {
-        posts.unshift(post);
-        alert("✅ Blog added!");
-      }
-
-      localStorage.setItem("posts", JSON.stringify(posts));
-      document.getElementById("title").value = "";
-      document.getElementById("content").value = "";
-      loadPosts();
-    }
-
-    // Delete blog
-    function deletePost(index) {
-      let posts = JSON.parse(localStorage.getItem("posts")) || [];
-      if (confirm("Are you sure you want to delete this blog?")) {
-        posts.splice(index, 1);
-        localStorage.setItem("posts", JSON.stringify(posts));
+      try {
+        if (state.editingId) {
+          await updateDoc(doc(db, "posts", state.editingId), {
+            title,
+            content,
+            updatedAt: serverTimestamp(),
+          });
+          alert("✏️ Blog updated successfully!");
+        } else {
+          await addDoc(collection(db, "posts"), {
+            title,
+            content,
+            author: "Pratik Timsina",
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+          alert("✅ Blog added!");
+        }
+        resetEditor();
         loadPosts();
+      } catch (e) {
+        console.error(e);
+        alert("Write failed. Are you logged in as admin? Check Firestore rules & auth.");
+      }
+    });
+
+    async function deletePost(id) {
+      if (!confirm("Are you sure you want to delete this blog?")) return;
+      try {
+        await deleteDoc(doc(db, "posts", id));
+        loadPosts();
+      } catch (e) {
+        console.error(e);
+        alert("Delete failed. Are you logged in as admin?");
       }
     }
 
-    // Edit blog
-    function editPost(index) {
-      let posts = JSON.parse(localStorage.getItem("posts")) || [];
-      const post = posts[index];
-      document.getElementById("title").value = post.title;
-      document.getElementById("content").value = post.content;
-      document.getElementById("postForm").style.display = "block";
-
-      // Change publish button to update
-      const btn = document.querySelector("#postForm .btn");
-      btn.textContent = "Update Blog";
-      btn.onclick = function() { savePost(index); };
+    function editPost(id, data) {
+      titleEl.value = data.title;
+      contentEl.value = data.content;
+      postForm.style.display = "block";
+      publishBtn.textContent = "Update Blog";
+      cancelEditBtn.style.display = "inline-block";
+      state.editingId = id;
     }
 
     // Load and display blogs
-    function loadPosts() {
-      const postsContainer = document.getElementById("posts");
+    async function loadPosts() {
       postsContainer.innerHTML = "";
-      let posts = JSON.parse(localStorage.getItem("posts")) || [];
-      posts.forEach((post, index) => {
-        const div = document.createElement("div");
-        div.classList.add("post");
-        div.innerHTML = `
-          <h2>${post.title}</h2>
-          <div class="author">✍️ Author: ${post.author || "Pratik Timsina"}</div>
-          <div class="date">${post.date}</div>
-          <p>${post.content}</p>
-          ${isLoggedIn ? `
-            <div class="action-btns">
-              <button class="btn edit-btn" onclick="editPost(${index})">✏️ Edit</button>
-              <button class="btn delete-btn" onclick="deletePost(${index})">🗑️ Delete</button>
-            </div>` : ""}
-        `;
-        postsContainer.appendChild(div);
-      });
-    }
-  </script>
+      try {
+        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        if (snap.empty) {
+          postsContainer.innerHTML = `<p style="color:#666">No posts yet. ${state.isAdmin ? "Write your first post above!" : "Check back later."}</p>`;
+          return;
+        }
+        snap.forEach((d) => {
+          const data = d.data();
+          const div = document.createElement("div");
+          div.classList.add("post");
+          const createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
+          const dateText = createdAt.toLocaleString();
+          div.innerHTML = `
+            <h2>${escapeHtml(data.title || "Untitled")}</h2>
+            <div class="author">✍️ Author: ${escapeHtml(data.author || "Pratik Timsina")}</div>
+            <div class="date">${dateText}</div>
+            <p>${escapeHtml(data.content || "")}</p>
+            ${state.isAdmin ? `
+              <div class="action-btns">
+                <button class="btn edit-btn" data-id="${d.id}">✏️ Edit</button>
+                <button class="btn delete-btn" data-id="${d.id}">🗑️ Delete</button>
+              </div>` : ""}
+          `;
+          postsContainer.appendChild(div);
 
+          if (state.isAdmin) {
+            div.querySelector('.edit-btn')?.addEventListener('click', () => editPost(d.id, data));
+            div.querySelector('.delete-btn')?.addEventListener('click', () => deletePost(d.id));
+          }
+        });
+      } catch (e) {
+        console.error(e);
+        postsContainer.innerHTML = `<p style="color:#c00">Failed to load posts. Check your Firebase config and Firestore rules.</p>`;
+      }
+    }
+
+    // Simple XSS-safe text output
+    function escapeHtml(str) {
+      return (str || "").replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[c]);
+    }
+
+    // Initial load (will run also after auth state change)
+    loadPosts();
+  </script>
 </body>
 </html>
