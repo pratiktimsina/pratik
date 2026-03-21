@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marksheet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GPA Portal | Mobile Ready</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,87 +15,88 @@
             --border: #d1d5db;
         }
 
-        body { font-family: 'Inter', sans-serif; margin: 0; padding: 20px; background-color: var(--bg-body); color: var(--text-main); }
-        .container { max-width: 1000px; margin: 0 auto; }
-        
-        /* Dashboard Styling */
-        .gpa-card {
-            background: var(--bg-card); padding: 25px; border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align: center;
-            margin-bottom: 25px; border: 1px solid var(--border);
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 15px; 
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            -webkit-tap-highlight-color: transparent;
         }
-        #gpa-display { font-size: 4rem; font-weight: 800; color: var(--primary); line-height: 1; }
+
+        .container { max-width: 100%; margin: 0 auto; }
         
+        header h1 { font-size: 1.5rem; margin-bottom: 5px; text-align: center; }
+        header p { font-size: 0.9rem; text-align: center; color: var(--text-muted); margin-bottom: 20px; }
+
+        /* Mobile GPA Display */
+        .gpa-card {
+            background: var(--bg-card); padding: 20px; border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); text-align: center;
+            margin-bottom: 20px; border: 1px solid var(--border);
+            position: sticky; top: 10px; z-index: 100;
+        }
+        #gpa-display { font-size: 3rem; font-weight: 800; color: var(--primary); }
+        
+        /* Scrollable Table for Mobile */
         .table-wrapper {
             background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);
-            overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow-x: auto; /* Allows side-scrolling on small screens */
+            margin-bottom: 20px;
         }
-        table { width: 100%; border-collapse: collapse; background: white; }
-        th { background: #f9fafb; padding: 12px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border); }
-        td { padding: 10px 15px; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { background: #f9fafb; padding: 10px; font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+        td { padding: 12px 10px; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
         
-        select { width: 100%; padding: 5px; border-radius: 4px; border: 1px solid var(--border); font-size: 13px; }
+        /* Touch-friendly Select */
+        select { 
+            width: 100%; padding: 10px; border-radius: 8px; 
+            border: 1px solid var(--border); font-size: 14px; 
+            background-color: #fff; appearance: none;
+        }
 
-        .actions { display: flex; gap: 15px; justify-content: center; margin: 30px 0; }
-        .btn { padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; font-family: inherit; font-size: 14px; }
+        .actions { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
+        .btn { width: 100%; padding: 15px; border-radius: 10px; font-weight: 600; cursor: pointer; border: none; font-size: 16px; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-secondary { background: #111827; color: white; }
 
-        /* OFFICIAL MARKSHEET STYLING */
+        /* Mobile Marksheet View */
         #marksheet-container {
-            display: none; background: white; padding: 50px; border: 1px solid #333;
-            margin-top: 40px; position: relative; overflow: hidden; color: #000;
+            display: none; background: white; padding: 20px 10px; border: 1px solid #333;
+            margin-top: 20px; position: relative; overflow: hidden;
         }
 
-        /* NEW CIRCULAR WATERMARK STYLE */
+        /* Scaled Circular Watermark for Mobile */
         .circular-watermark-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 550px; /* Size of the round watermark area */
-            height: 550px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.035; /* Very subtle */
+            width: 300px; height: 300px;
+            pointer-events: none; opacity: 0.04;
         }
 
-        .circular-watermark-svg {
-            width: 100%;
-            height: 100%;
-            fill: #000;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 26px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-        }
-
-        .ms-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px; position: relative; z-index: 1; }
-        .ms-table { width: 100%; border: 1px solid #000; border-collapse: collapse; position: relative; z-index: 1; font-size: 12px; }
-        .ms-table th, .ms-table td { border: 1px solid #000; padding: 6px 10px; text-align: left; }
+        .ms-table { width: 100%; border: 1px solid #000; border-collapse: collapse; font-size: 10px; }
+        .ms-table th, .ms-table td { border: 1px solid #000; padding: 4px; }
         
-        .ms-footer { margin-top: 50px; display: flex; justify-content: space-between; position: relative; z-index: 1;}
-        .sign-area { border-top: 1px solid #000; width: 180px; text-align: center; font-size: 11px; padding-top: 5px; }
+        .ms-footer { margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
+        .sign-area { border-top: 1px solid #000; width: 150px; text-align: center; font-size: 10px; }
 
         @media print {
-            body { background: white; padding: 0; }
             .gpa-card, .table-wrapper, .actions, header { display: none !important; }
-            #marksheet-container { display: block !important; border: none; margin: 0; padding: 0; width: 100%; height: 100%; }
-            .circular-watermark-container { opacity: 0.035 !important; -webkit-print-color-adjust: exact; }
+            #marksheet-container { display: block !important; border: none; padding: 0; width: 100%; }
+            .circular-watermark-container { width: 500px; height: 500px; opacity: 0.04 !important; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header style="text-align: center; margin-bottom: 30px;">
-        <h1>Student Result Portal</h1>
-        <p>NEB Grade Management System</p>
+    <header>
+        <h1>GPA Calculator</h1>
+        <p>Pratik Timsina Digital Portal</p>
     </header>
 
     <div class="gpa-card">
-        <span style="font-weight: 600; color: var(--text-muted); font-size: 12px; letter-spacing: 2px;">CALCULATED GPA</span>
+        <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">GPA</div>
         <div id="gpa-display">0.00</div>
     </div>
 
@@ -104,8 +105,8 @@
             <thead>
                 <tr>
                     <th>Code</th>
-                    <th>Subjects</th>
-                    <th style="text-align:center">Cr. Hr</th>
+                    <th>Subject Name</th>
+                    <th>Cr</th>
                     <th>Grade</th>
                 </tr>
             </thead>
@@ -114,62 +115,47 @@
     </div>
 
     <div class="actions">
-        <button class="btn btn-primary" onclick="generateMarksheet()">Preview Result</button>
-        <button class="btn btn-secondary" onclick="window.print()">Download Marksheet</button>
+        <button class="btn btn-primary" onclick="generateMarksheet()">Preview Marksheet</button>
+        <button class="btn btn-secondary" onclick="window.print()">Print / Save PDF</button>
     </div>
 
     <div id="marksheet-container">
-        
         <div class="circular-watermark-container">
-            <svg class="circular-watermark-svg" viewBox="0 0 500 500">
-                <defs>
-                    <path id="textCircle" d="M 250, 250 m -180, 0 a 180,180 0 1,1 360,0 a 180,180 0 1,1 -360,0" />
-                </defs>
-                <text>
-                    <textPath xlink:href="#textCircle">
-                        pratik timsina &nbsp;&nbsp;&bull;&nbsp;&nbsp; pratik timsina &nbsp;&nbsp;&bull;&nbsp;&nbsp; pratik timsina &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+            <svg viewBox="0 0 500 500" style="width:100%; height:100%;">
+                <path id="mobileCircle" fill="transparent" d="M 250, 250 m -150, 0 a 150,150 0 1,1 300,0 a 150,150 0 1,1 -300,0" />
+                <text font-size="32" font-weight="bold" fill="black" text-transform="uppercase">
+                    <textPath xlink:href="#mobileCircle">
+                        pratik timsina &bull; pratik timsina &bull; pratik timsina &bull;
                     </textPath>
                 </text>
             </svg>
         </div>
         
-        <div class="ms-header">
-            <h2 style="margin: 0; letter-spacing: 1px;">NATIONAL EXAMINATIONS BOARD</h2>
-            <h4 style="margin: 5px 0; font-weight: 500;">GRADE SHEET</h4>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 12px; position: relative; z-index: 1;">
-            <div><strong>Student Name:</strong> _________________________</div>
-            <div><strong>Date:</strong> <span id="ms-date"></span></div>
+        <div style="text-align: center; border-bottom: 1px solid #000; margin-bottom: 15px;">
+            <h3 style="margin: 0; font-size: 14px;">NATIONAL EXAMINATIONS BOARD</h3>
+            <p style="margin: 5px 0; font-size: 10px;">GRADE SHEET</p>
         </div>
 
         <table class="ms-table">
             <thead>
                 <tr>
-                    <th>Subject Code</th>
-                    <th>Subjects</th>
-                    <th>Credit Hour</th>
-                    <th>Grade Point</th>
-                    <th>Grade</th>
-                    <th>Final Grade</th>
+                    <th>Code</th>
+                    <th>Subject</th>
+                    <th>Cr</th>
+                    <th>GP</th>
+                    <th>Gr</th>
                 </tr>
             </thead>
             <tbody id="ms-body"></tbody>
-            <tfoot>
-                <tr style="background: #eee; font-weight: bold;">
-                    <td colspan="2" style="text-align: right;">Total Credit: <span id="ms-total-credit"></span></td>
-                    <td colspan="4" style="text-align: right;">Grade Point Average (GPA): <span id="ms-final-gpa"></span></td>
-                </tr>
-            </tfoot>
         </table>
+
+        <div style="margin-top: 15px; font-weight: bold; font-size: 12px; text-align: right;">
+            GPA: <span id="ms-final-gpa"></span>
+        </div>
 
         <div class="ms-footer">
             <div class="sign-area">Checked By</div>
-            <div class="sign-area">Controller of Examinations</div>
-        </div>
-        
-        <div style="text-align: center; margin-top: 40px; font-size: 9px; color: #555; position: relative; z-index: 1;">
-            Verified digital copy: pratiktimsina.com.np
+            <div class="sign-area">Controller</div>
         </div>
     </div>
 </div>
@@ -186,20 +172,19 @@ const subjects = [
     {code: "9132", name: "PHYSICS (PR)", credit: 0.75},
     {code: "9141", name: "MATHEMATICS (TH)", credit: 2.25},
     {code: "9142", name: "MATHEMATICS (IN)", credit: 0.75},
-    {code: "9341", name: "VISUAL PROGRAMMING (TH)", credit: 2.00},
-    {code: "9342", name: "VISUAL PROGRAMMING (PR)", credit: 2.00},
-    {code: "9351", name: "COMPUTER NETWORK (TH)", credit: 2.00},
-    {code: "9352", name: "COMPUTER NETWORK (PR)", credit: 2.00},
-    {code: "9361", name: "CONTEMPORARY TECHNOLOGY (TH)", credit: 2.00},
-    {code: "9362", name: "CONTEMPORARY TECHNOLOGY (PR)", credit: 2.00},
-    {code: "9371", name: "SOFTWARE ENGINEERING (TH)", credit: 2.00},
-    {code: "9372", name: "SOFTWARE ENGINEERING (PR)", credit: 2.00},
-    {code: "9550", name: "ON THE JOB TRAINING (OJT)", credit: 10.00}
+    {code: "9341", name: "VISUAL PROG (TH)", credit: 2.00},
+    {code: "9342", name: "VISUAL PROG (PR)", credit: 2.00},
+    {code: "9351", name: "COMP NETWORK (TH)", credit: 2.00},
+    {code: "9352", name: "COMP NETWORK (PR)", credit: 2.00},
+    {code: "9361", name: "CONTEMP TECH (TH)", credit: 2.00},
+    {code: "9362", name: "CONTEMP TECH (PR)", credit: 2.00},
+    {code: "9371", name: "SOFT ENG (TH)", credit: 2.00},
+    {code: "9372", name: "SOFT ENG (PR)", credit: 2.00},
+    {code: "9550", name: "OJT TRAINING", credit: 10.00}
 ];
 
 const gradePoints = {"A+": 4.0, "A": 3.6, "B+": 3.2, "B": 2.8, "C+": 2.4, "C": 2.0, "D": 1.6, "F": 0.0};
 
-// GPA Truncation Logic (floors to 3.77)
 function formatGPA(num) {
     return (Math.floor(num * 100) / 100).toFixed(2);
 }
@@ -209,12 +194,12 @@ subjects.forEach((sub, i) => {
     const row = document.createElement("tr");
     const isOJT = sub.code === "9550";
     row.innerHTML = `
-        <td style="font-family: 'JetBrains Mono'; color: var(--text-muted)">${sub.code}</td>
-        <td style="font-weight: 500">${sub.name}</td>
-        <td style="text-align: center">${sub.credit.toFixed(2)}</td>
+        <td>${sub.code}</td>
+        <td>${sub.name}</td>
+        <td style="text-align:center">${sub.credit.toFixed(1)}</td>
         <td>
             <select onchange="calculateGPA()" data-index="${i}">
-                <option value="">--</option>
+                <option value="">-</option>
                 ${Object.keys(gradePoints).map(g => `<option value="${g}" ${isOJT && g==='A+' ? 'selected' : ''}>${g}</option>`).join('')}
             </select>
         </td>
@@ -225,46 +210,38 @@ subjects.forEach((sub, i) => {
 function calculateGPA() {
     let weightedSum = 0, totalCredits = 0;
     document.querySelectorAll("select").forEach(select => {
-        const val = select.value;
-        const index = select.dataset.index;
-        if(val) {
-            weightedSum += gradePoints[val] * subjects[index].credit;
-            totalCredits += subjects[index].credit;
+        if(select.value) {
+            const i = select.dataset.index;
+            weightedSum += gradePoints[select.value] * subjects[i].credit;
+            totalCredits += subjects[i].credit;
         }
     });
-    const gpa = totalCredits > 0 ? formatGPA(weightedSum / totalCredits) : "0.00";
-    document.getElementById("gpa-display").textContent = gpa;
+    document.getElementById("gpa-display").textContent = totalCredits > 0 ? formatGPA(weightedSum / totalCredits) : "0.00";
 }
 
 function generateMarksheet() {
     const msBody = document.getElementById("ms-body");
-    const container = document.getElementById("marksheet-container");
     msBody.innerHTML = "";
     let totalP = 0, totalC = 0;
     
     document.querySelectorAll("select").forEach(select => {
-        const grade = select.value;
-        const i = select.dataset.index;
-        if(grade) {
+        if(select.value) {
+            const i = select.dataset.index;
             msBody.innerHTML += `<tr>
                 <td>${subjects[i].code}</td>
                 <td>${subjects[i].name}</td>
-                <td>${subjects[i].credit.toFixed(2)}</td>
-                <td>${gradePoints[grade].toFixed(1)}</td>
-                <td>${grade}</td>
-                <td>${grade}</td>
+                <td>${subjects[i].credit.toFixed(1)}</td>
+                <td>${gradePoints[select.value].toFixed(1)}</td>
+                <td>${select.value}</td>
             </tr>`;
-            totalP += gradePoints[grade] * subjects[i].credit;
+            totalP += gradePoints[select.value] * subjects[i].credit;
             totalC += subjects[i].credit;
         }
     });
 
     document.getElementById("ms-final-gpa").textContent = formatGPA(totalP / totalC);
-    document.getElementById("ms-total-credit").textContent = totalC.toFixed(2);
-    document.getElementById("ms-date").textContent = new Date().toLocaleDateString();
-    
-    container.style.display = "block";
-    container.scrollIntoView({behavior: 'smooth'});
+    document.getElementById("marksheet-container").style.display = "block";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
 calculateGPA();
