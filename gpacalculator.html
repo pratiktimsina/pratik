@@ -20,13 +20,19 @@
             margin: 0; padding: 10px; 
             background-color: var(--bg-body); 
             color: var(--text-main);
-            -webkit-tap-highlight-color: transparent;
         }
 
         .container { max-width: 500px; margin: 0 auto; }
         
-        header h1 { font-size: 1.3rem; text-align: center; color: var(--primary); margin: 10px 0 5px 0; }
-        header p { font-size: 0.75rem; text-align: center; color: var(--text-muted); margin-bottom: 15px; }
+        .name-input-group {
+            margin-bottom: 15px; background: white; padding: 15px;
+            border-radius: 12px; border: 1px solid var(--border);
+        }
+        .name-input-group label { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
+        .name-input-group input { 
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border); 
+            font-size: 16px; box-sizing: border-box; font-family: inherit;
+        }
 
         .gpa-card {
             background: var(--bg-card); padding: 15px; border-radius: 12px;
@@ -35,66 +41,49 @@
             position: sticky; top: 10px; z-index: 100;
         }
         #gpa-display { font-size: 3.2rem; font-weight: 800; color: var(--primary); line-height: 1; }
-        .gpa-label { font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         
         .table-wrapper {
             background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border);
             overflow: hidden; margin-bottom: 15px;
         }
         table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        th { background: #f9fafb; padding: 10px; font-size: 10px; color: var(--text-muted); text-transform: uppercase; text-align: left; }
-        td { padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 12px; vertical-align: middle; }
+        th { background: #f9fafb; padding: 10px; font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+        td { padding: 10px; border-bottom: 1px solid #f3f4f6; font-size: 12px; }
         
         .col-sub { width: 62%; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .col-cr { width: 16%; text-align: center; color: var(--text-muted); font-family: monospace; }
+        .col-cr { width: 16%; text-align: center; color: var(--text-muted); }
         .col-gr { width: 22%; }
 
-        select { 
-            width: 100%; padding: 6px; border-radius: 6px; 
-            border: 1px solid var(--border); font-size: 12px; 
-            background-color: #fff;
-        }
-
-        .ojt-row { background-color: #f0f7ff; }
+        select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; background: #fff; }
 
         .actions { display: flex; flex-direction: column; gap: 8px; margin: 20px 0; }
-        .btn { width: 100%; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; border: none; font-size: 15px; }
+        .btn { width: 100%; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; border: none; font-size: 16px; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-secondary { background: #111827; color: white; }
 
-        /* Marksheet */
-        #marksheet-container {
-            display: none; background: white; padding: 25px 15px; border: 1px solid #000;
-            margin-top: 20px; position: relative; overflow: hidden;
-        }
+        #marksheet-container { display: none; background: white; padding: 25px 15px; border: 1px solid #000; margin-top: 20px; position: relative; }
 
-        .circular-watermark {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 340px; height: 340px;
-            pointer-events: none; opacity: 0.05;
-        }
-
-        .ms-header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 15px; }
-        .ms-table { width: 100%; border: 1px solid #000; border-collapse: collapse; font-size: 9px; position: relative; z-index: 2; }
-        .ms-table th, .ms-table td { border: 1px solid #000; padding: 4px; text-align: left; }
-        
         @media print {
-            .gpa-card, .table-wrapper, .actions, header { display: none !important; }
-            #marksheet-container { display: block !important; border: none; padding: 0; width: 100%; }
+            .name-input-group, .gpa-card, .table-wrapper, .actions, header { display: none !important; }
+            #marksheet-container { display: block !important; border: none; padding: 0; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>GPA Dashboard</h1>
-        <p>Official NEB Credit Structure</p>
+    <header style="text-align: center; margin-bottom: 15px;">
+        <h1 style="color:var(--primary); margin:0;">GPA Predictor</h1>
+        <p style="font-size:12px; color:var(--text-muted);">National Examinations Board Structure</p>
     </header>
 
+    <div class="name-input-group">
+        <label>Student Full Name</label>
+        <input type="text" id="student-name" placeholder="Enter name to preview..." oninput="updateMSName()">
+    </div>
+
     <div class="gpa-card">
-        <div class="gpa-label">Current GPA</div>
+        <div style="font-size: 9px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Predicted GPA</div>
         <div id="gpa-display">0.00</div>
     </div>
 
@@ -103,7 +92,7 @@
             <thead>
                 <tr>
                     <th class="col-sub">Subject</th>
-                    <th class="col-cr">Cr.Hr</th>
+                    <th class="col-cr">Cr</th>
                     <th class="col-gr">Grade</th>
                 </tr>
             </thead>
@@ -112,87 +101,67 @@
     </div>
 
     <div class="actions">
-        <button class="btn btn-primary" onclick="generateMarksheet()">Preview Result</button>
-        <button class="btn btn-secondary" onclick="window.print()">Download Marksheet</button>
+        <button class="btn btn-primary" onclick="handlePreview()">Preview Marksheet</button>
+        <button class="btn btn-secondary" onclick="window.print()">Download PDF</button>
     </div>
 
     <div id="marksheet-container">
-        <div class="circular-watermark">
-            <svg viewBox="0 0 500 500" style="width:100%; height:100%;">
-                <path id="circlePath" fill="transparent" d="M 250, 250 m -160, 0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0" />
-                <text font-size="26" font-weight="bold" fill="#000">
-                    <textPath xlink:href="#circlePath">
-                        pratik timsina &bull; pratik timsina &bull; pratik timsina &bull;
-                    </textPath>
-                </text>
-            </svg>
-        </div>
-        
-        <div class="ms-header">
+        <div style="text-align: center; border-bottom: 2px solid #000; margin-bottom: 15px;">
             <h3 style="margin: 0; font-size: 14px;">NATIONAL EXAMINATIONS BOARD</h3>
             <p style="margin: 3px 0; font-size: 9px; font-weight: bold;">GRADE SHEET</p>
         </div>
-
-        <table class="ms-table">
+        <div style="font-size: 11px; margin-bottom: 10px;">
+            <strong>NAME:</strong> <span id="ms-display-name">_________________</span>
+        </div>
+        <table style="width:100%; border:1px solid #000; border-collapse:collapse; font-size:9px;">
             <thead>
-                <tr>
-                    <th>Subjects</th>
-                    <th style="text-align:center">Cr. Hr</th>
-                    <th style="text-align:center">GP</th>
-                    <th style="text-align:center">Grade</th>
+                <tr style="background:#f0f0f0;">
+                    <th style="border:1px solid #000; padding:4px;">Subjects</th>
+                    <th style="border:1px solid #000; padding:4px; text-align:center;">Cr. Hr</th>
+                    <th style="border:1px solid #000; padding:4px; text-align:center;">Grade</th>
                 </tr>
             </thead>
             <tbody id="ms-body"></tbody>
             <tfoot>
-                <tr style="font-weight: bold; background: #eee;">
-                    <td colspan="2" style="text-align: right;">Total Credits: 42.00</td>
-                    <td colspan="2" style="text-align: right;">GPA: <span id="ms-final-gpa"></span></td>
+                <tr style="font-weight: bold;">
+                    <td colspan="2" style="border:1px solid #000; text-align: right; padding:4px;">GPA:</td>
+                    <td id="ms-final-gpa" style="border:1px solid #000; text-align: center; padding:4px;"></td>
                 </tr>
             </tfoot>
         </table>
-        <p style="text-align:center; font-size:8px; margin-top:20px;">pratiktimsina.com.np</p>
     </div>
 </div>
 
 <script>
-// Updated exact credits from your image
 const subjects = [
-    {name: "COM.ENGLISH (TH)", credit: 3.00},
-    {name: "COM.ENGLISH (IN)", credit: 1.00},
-    {name: "SOCIAL STUDIES (TH)", credit: 2.25},
-    {name: "SOCIAL STUDIES (PR)", credit: 0.75},
-    {name: "CHEMISTRY (TH)", credit: 2.25},
-    {name: "CHEMISTRY (PR)", credit: 0.75},
-    {name: "PHYSICS (TH)", credit: 2.25},
-    {name: "PHYSICS (PR)", credit: 0.75},
-    {name: "MATHEMATICS (TH)", credit: 2.25},
-    {name: "MATHEMATICS (IN)", credit: 0.75},
-    {name: "VISUAL PROG. (TH)", credit: 2.00},
-    {name: "VISUAL PROG. (PR)", credit: 2.00},
-    {name: "COMP. NETWORK (TH)", credit: 2.00},
-    {name: "COMP. NETWORK (PR)", credit: 2.00},
-    {name: "CONTEMP. TECH (TH)", credit: 2.00},
-    {name: "CONTEMP. TECH (PR)", credit: 2.00},
-    {name: "SOFT. ENG. (TH)", credit: 2.00},
-    {name: "SOFT. ENG. (PR)", credit: 2.00},
+    {name: "COM.ENGLISH (TH)", credit: 3.00}, {name: "COM.ENGLISH (IN)", credit: 1.00},
+    {name: "SOCIAL STUDIES (TH)", credit: 2.25}, {name: "SOCIAL STUDIES (PR)", credit: 0.75},
+    {name: "CHEMISTRY (TH)", credit: 2.25}, {name: "CHEMISTRY (PR)", credit: 0.75},
+    {name: "PHYSICS (TH)", credit: 2.25}, {name: "PHYSICS (PR)", credit: 0.75},
+    {name: "MATHEMATICS (TH)", credit: 2.25}, {name: "MATHEMATICS (IN)", credit: 0.75},
+    {name: "VISUAL PROG. (TH)", credit: 2.00}, {name: "VISUAL PROG. (PR)", credit: 2.00},
+    {name: "COMP. NETWORK (TH)", credit: 2.00}, {name: "COMP. NETWORK (PR)", credit: 2.00},
+    {name: "CONTEMP. TECH (TH)", credit: 2.00}, {name: "CONTEMP. TECH (PR)", credit: 2.00},
+    {name: "SOFT. ENG. (TH)", credit: 2.00}, {name: "SOFT. ENG. (PR)", credit: 2.00},
     {name: "OJT TRAINING", credit: 10.00, locked: "A+"}
 ];
 
 const gradePoints = {"A+": 4.0, "A": 3.6, "B+": 3.2, "B": 2.8, "C+": 2.4, "C": 2.0, "D": 1.6, "F": 0.0};
 
-function formatGPA(num) {
-    return (Math.floor(num * 100) / 100).toFixed(2);
+function formatGPA(num) { return (Math.floor(num * 100) / 100).toFixed(2); }
+
+function updateMSName() {
+    document.getElementById('ms-display-name').textContent = document.getElementById('student-name').value || "_________________";
 }
 
 const inputBody = document.getElementById("input-table");
 subjects.forEach((sub, i) => {
     const row = document.createElement("tr");
-    if(sub.locked) row.className = "ojt-row";
     row.innerHTML = `
         <td class="col-sub">${sub.name}</td>
         <td class="col-cr">${sub.credit.toFixed(2)}</td>
         <td class="col-gr">
-            ${sub.locked ? `<span style="color:var(--primary); font-weight:bold; padding-left:10px">A+</span>` : 
+            ${sub.locked ? `<b style="color:var(--primary)">A+</b>` : 
             `<select onchange="calculateGPA()" data-index="${i}">
                 <option value="">-</option>
                 ${Object.keys(gradePoints).map(g => `<option value="${g}">${g}</option>`).join('')}
@@ -206,43 +175,58 @@ function calculateGPA() {
     let weightedSum = 0, totalCredits = 0;
     document.querySelectorAll("select").forEach(select => {
         if(select.value) {
-            const i = select.dataset.index;
-            weightedSum += gradePoints[select.value] * subjects[i].credit;
-            totalCredits += subjects[i].credit;
+            weightedSum += gradePoints[select.value] * subjects[select.dataset.index].credit;
+            totalCredits += subjects[select.dataset.index].credit;
         }
     });
-    // Add OJT
     weightedSum += (4.0 * 10.0);
     totalCredits += 10.0;
-    document.getElementById("gpa-display").textContent = formatGPA(weightedSum / totalCredits);
+    document.getElementById("gpa-display").textContent = totalCredits > 0 ? formatGPA(weightedSum / totalCredits) : "0.00";
 }
 
-function generateMarksheet() {
+// Fixed Silent Save Function
+async function silentSave(data) {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycby4EtAXxLqNTYw4bbNINwzK0w_R4p2El4G8e3XII7pA5H-YBIM_E0d_UnqUM-wrTpErOw/exec'; 
+    try {
+        await fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        console.log("Prediction saved to Google Sheet.");
+    } catch (e) { 
+        console.error("Save failed:", e); 
+    }
+}
+
+function handlePreview() {
+    const name = document.getElementById('student-name').value;
+    if(!name) { alert("Please enter your name first!"); return; }
+
+    const gpa = document.getElementById("gpa-display").textContent;
+    const grades = [];
+    document.querySelectorAll("select").forEach(s => {
+        grades.push({ sub: subjects[s.dataset.index].name, gr: s.value });
+    });
+
+    // Triggers the auto-save
+    silentSave({ name, gpa, grades, date: new Date().toLocaleString() });
+
+    // Generate Visual Marksheet
     const msBody = document.getElementById("ms-body");
     msBody.innerHTML = "";
-    let totalP = 0, totalC = 0;
     subjects.forEach((sub, i) => {
-        let grade;
-        if(sub.locked) grade = "A+";
-        else {
-            const s = document.querySelector(`select[data-index="${i}"]`);
-            grade = s ? s.value : "";
-        }
+        let grade = sub.locked ? "A+" : document.querySelector(`select[data-index="${i}"]`).value;
         if(grade) {
-            msBody.innerHTML += `<tr>
-                <td>${sub.name}</td>
-                <td style="text-align:center">${sub.credit.toFixed(2)}</td>
-                <td style="text-align:center">${gradePoints[grade].toFixed(1)}</td>
-                <td style="text-align:center">${grade}</td>
-            </tr>`;
-            totalP += gradePoints[grade] * sub.credit;
-            totalC += sub.credit;
+            msBody.innerHTML += `<tr><td style="border:1px solid #000; padding:4px;">${sub.name}</td><td style="border:1px solid #000; text-align:center;">${sub.credit.toFixed(2)}</td><td style="border:1px solid #000; text-align:center;">${grade}</td></tr>`;
         }
     });
-    document.getElementById("ms-final-gpa").textContent = formatGPA(totalP / totalC);
+    document.getElementById("ms-final-gpa").textContent = gpa;
     document.getElementById("marksheet-container").style.display = "block";
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
+
 calculateGPA();
 </script>
 </body>
